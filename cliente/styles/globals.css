@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*TIPOGRAFÍA*/
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap");
+
+@layer base {
+  html {
+    font-family: "Roboto", sans-serif;
+    @apply text-oscuro;
+  }
+
+  div {
+    max-width: 100%;
+  }
+
+  h1 {
+    font-size: 3rem;
+    @apply font-bold;
+  }
+
+  h2 {
+    font-size: 1.625rem;
+    font-weight: bold;
+  }
+
+  h3 {
+    @apply font-bold text-[1.25rem] text-main;
+  }
+
+  p,
+  a {
+    font-size: 1.1875rem;
+    @apply font-light;
+  }
+
+  .fuenteMenu {
+    font-family: "Nunito", sans-serif;
+  }
+
+  .palabraSpan {
+    @apply text-main;
+  }
+
+  .contenedorMain {
+    @apply flex justify-center items-center bg-fondoBlanco p-5 pb-28 min-h-[44.6956rem];
+  }
+}
