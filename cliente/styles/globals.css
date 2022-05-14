@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities;                           
+ 
 
 /*TIPOGRAFÍA*/
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap");
@@ -47,4 +48,7 @@
   .contenedorMain {
     @apply flex justify-center items-center bg-fondoBlanco p-5 pb-28 min-h-[44.6956rem];
   }
+
+  
 }
+

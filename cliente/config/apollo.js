@@ -3,7 +3,7 @@ import fetch from "cross-fetch";
 import { setContext } from "apollo-link-context";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/",
+  uri: "http://localhost:4000/graphql",
   fetch,
 });
 

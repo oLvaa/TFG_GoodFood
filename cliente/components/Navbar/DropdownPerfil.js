@@ -22,6 +22,14 @@ const DropdownPerfil = () => {
             <p className="text-sm font-bold">{auth.email}</p>
           </div>
           <div onClick={() => setAbierto(!abierto)}>
+            {auth.admin && (
+              <Link href="/dashboard/home">
+                <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3 ">
+                  <a className="cursor-pointer text-sm">Dashboard</a>
+                </div>
+              </Link>
+            )}
+
             <Link href="/">
               <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3 ">
                 <a className="cursor-pointer text-sm">Mis datos</a>

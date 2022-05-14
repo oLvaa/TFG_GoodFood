@@ -12,7 +12,7 @@ const Reviews = () => {
           <img src="/Iconos/estrella.svg" alt="" width={27} />
         </div>
         <div className="grow text-center">
-          <p className="text-[1rem] font-semibold">4,8/5</p>
+          <p className="text-[1rem] font-semibold mt-[0.25rem]">4,8/5</p>
         </div>
       </div>
       <div className="w-[14rem] text-center">

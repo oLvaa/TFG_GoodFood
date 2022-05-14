@@ -1,4 +1,5 @@
-const { ApolloServer, gql } = require("apollo-server");
+const express = require("express");
+const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
 
@@ -9,31 +10,39 @@ require("dotenv").config({ path: "variables.env" });
 //Conexión a la base de datos
 conectarDB();
 
-//Servidor
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ req }) => {
-    const token = req.headers["authorization"] || "";
+async function startServer() {
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => {
+      const token = req.headers["authorization"] || "";
 
-    if (token) {
-      try {
-        const usuario = jwt.verify(
-          token.replace("Bearer ", ""),
-          process.env.SECRETA
-        );
-        return {
-          usuario,
-        };
-      } catch (error) {
-        console.log("Hubo un error");
-        console.log(error);
+      if (token) {
+        try {
+          const usuario = jwt.verify(
+            token.replace("Bearer ", ""),
+            process.env.SECRETA
+          );
+          return {
+            usuario,
+          };
+        } catch (error) {
+          console.log("Hubo un error");
+          console.log(error);
+        }
       }
-    }
-  },
-});
+    },
+  });
 
-//Arrancar el servidor
-server.listen().then(({ url }) => {
-  console.log(`Servidor listo en la URL ${url}`);
-});
+  await server.start();
+
+  const app = express();
+
+  server.applyMiddleware({ app });
+
+  await new Promise((r) => app.listen({ port: 4000 }, r));
+
+  console.log(`Servidor listo en http://localhost:4000${server.graphqlPath}`);
+}
+
+startServer();

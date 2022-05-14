@@ -1,4 +1,5 @@
 const Usuario = require("../models/Usuario");
+const Plato = require("../models/Plato");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
@@ -21,6 +22,25 @@ const resolvers = {
       //El context contiene el usuario autenticado
       return ctx.usuario;
     },
+
+    obtenerPlatos: async () => {
+      try {
+        const platos = await Plato.find({});
+        return platos;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    obtenerPlato: async (_, { id }) => {
+      const plato = await Plato.findById(id);
+
+      if (!plato) {
+        throw new Error("Plato no encontrado");
+      }
+
+      return plato;
+    },
   },
 
   Mutation: {
@@ -31,7 +51,7 @@ const resolvers = {
       const existeEmail = await Usuario.findOne({ email });
       if (existeEmail) {
         throw new Error(
-          "Ya hay un usuario registrado con ese correo electrónico"
+          "Ya existe un usuario registrado con el mismo correo electrónico"
         );
       }
 
@@ -88,6 +108,40 @@ const resolvers = {
       return {
         token: crearToken(existeUsuario, process.env.SECRETA, "24h"),
       };
+    },
+
+    nuevoPlato: async (_, { input }) => {
+      try {
+        const plato = new Plato(input);
+        const resultado = await plato.save();
+        return resultado;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    actualizarPlato: async (_, { id, input }) => {
+      const plato = await Plato.findById(id);
+
+      if (!plato) {
+        throw new Error("Plato no encontrado");
+      }
+
+      plato = await Plato.findOneAndUpdate({ _id: id }, input, { new: true });
+
+      return plato;
+    },
+
+    eliminarPlato: async (_, { id }) => {
+      const plato = await Plato.findById(id);
+
+      if (!plato) {
+        throw new Error("Plato no encontrado");
+      }
+
+      await Plato.findOneAndDelete({ _id: id });
+
+      return "Plato eliminado";
     },
   },
 };

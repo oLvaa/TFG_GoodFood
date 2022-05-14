@@ -23,6 +23,15 @@ const Navbar = () => {
         <nav className="list-none flex space-x-16 fuenteMenu font-bold text-lg">
           <li
             className={
+              path === "/"
+                ? "border-b-2 border-main font-bold"
+                : "hover:text-main font-bold"
+            }
+          >
+            <Link href="/">Inicio</Link>
+          </li>
+          <li
+            className={
               path === "/packs" ? "border-b-2 border-main" : "hover:text-main"
             }
           >
@@ -50,8 +59,8 @@ const Navbar = () => {
             <button
               className={
                 path === "/menu/personalizado" || path === "/menu/original"
-                  ? "border-b-2 border-main font-light text-[1.1875rem] cursor-default"
-                  : "font-light text-[1.1875rem] cursor-default"
+                  ? "border-b-2 border-main font-light text-[1.1875rem] cursor-pointer"
+                  : "font-light text-[1.1875rem] cursor-pointer"
               }
             >
               Menú
@@ -83,13 +92,7 @@ const Navbar = () => {
             onMouseEnter={() => setAbierto2(true)}
             onMouseLeave={() => setAbierto2(false)}
           >
-            <button
-              className={
-                path === "/menu/personalizado" || path === "/menu/original"
-                  ? "border-b-2 border-main font-light text-[1.3rem] cursor-default"
-                  : "font-light text-[1.3rem] cursor-default"
-              }
-            >
+            <button>
               {auth ? (
                 <img src="/Iconos/perfil.svg" alt="Icono perfil" width={33} />
               ) : (
