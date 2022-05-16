@@ -37,9 +37,7 @@ const Dashboard = ({ children }) => {
     <div>
       {loading ? (
         <div className="flex w-screen h-screen justify-center items-center">
-          <div>
-            <CircularProgress />
-          </div>
+          <CircularProgress color="success" />
         </div>
       ) : (
         <div className="relative">
