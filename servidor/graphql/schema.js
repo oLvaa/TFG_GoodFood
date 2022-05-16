@@ -55,29 +55,31 @@ const typeDefs = gql`
 
   type Plato {
     id: ID
+    nombre: String
+    img: String
+    imgID: String
     pack: String
     enMenu: Boolean
-    nombre: String
+    precio: Float
+    peso: Int
     calorias: Int
     proteina: Int
     carbohidrato: Int
     grasa: Int
-    peso: Int
-    precio: Float
-    img: String
   }
 
   input PlatoInput {
-    pack: String!
-    enMenu: Boolean!
-    nombre: String!
-    calorias: Int!
-    proteina: Int!
-    carbohidrato: Int!
-    grasa: Int!
-    peso: Int!
-    precio: Float!
-    img: String!
+    nombre: String
+    img: String
+    imgID: String
+    pack: String
+    enMenu: Boolean
+    precio: Float
+    peso: Int
+    calorias: Int
+    proteina: Int
+    carbohidrato: Int
+    grasa: Int
   }
 `;
 
