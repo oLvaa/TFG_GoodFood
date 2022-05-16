@@ -4,26 +4,26 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Table from "./Table";
 
 const OBTENER_PLATOS = gql`
-  query Query {
+  query ObtenerPlatos {
     obtenerPlatos {
       id
+      nombre
+      img
+      imgID
       pack
       enMenu
-      nombre
+      precio
+      peso
       calorias
       proteina
       carbohidrato
       grasa
-      peso
-      precio
-      img
     }
   }
 `;
 
 const Platos = () => {
-  const { data, loading, error } = useQuery(OBTENER_PLATOS);
-  console.log(data);
+  const { loading, error, data } = useQuery(OBTENER_PLATOS);
 
   return (
     <div>
@@ -34,7 +34,7 @@ const Platos = () => {
         </div>
       ) : (
         <div className="border border-b-0">
-          <Table data={data} />
+          <Table data={data.obtenerPlatos} />
         </div>
       )}
     </div>
