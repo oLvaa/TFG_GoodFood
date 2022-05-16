@@ -3,6 +3,7 @@ import "primereact/resources/themes/saga-green/theme.css";
 import "primereact/resources/primereact.css";
 
 import React, { useState, useEffect, useRef } from "react";
+import { gql } from "@apollo/client";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
@@ -231,20 +232,38 @@ const data = [
   },
 ].reverse();
 
+const NUEVO_PLATO = gql`
+  mutation NuevoPlato {
+    nuevoPlato {
+      nombre
+      img
+      imgID
+      pack
+      enMenu
+      precio
+      peso
+      calorias
+      proteina
+      carbohidrato
+      grasa
+    }
+  }
+`;
+
 const Table = ({}) => {
   const PLATO_VACIO = {
     id: "",
+    nombre: "",
+    img: "",
+    imgID: "",
     pack: "",
     enMenu: null,
-    nombre: "",
+    precio: 0,
+    peso: 0,
     calorias: 0,
     proteina: 0,
     carbohidrato: 0,
     grasa: 0,
-    peso: 0,
-    precio: 0,
-    img: "",
-    imgID: "",
   };
 
   const PACK_DROPDOWN_ITEMS = [
@@ -264,6 +283,7 @@ const Table = ({}) => {
   const [platosSeleccionados, setPlatosSeleccionados] = useState(null);
   const [expandedRows, setExpandedRows] = useState(null);
   const [uploadedImg, setUploadedImg] = useState();
+  const [imgChanged, setImgChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const toast = useRef(null);
@@ -399,38 +419,45 @@ const Table = ({}) => {
   };
 
   const savePlato = async () => {
-    setLoading(true);
-
-    //Subo la imagen a Cloudinary
-    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
-
-    const formData = new FormData();
-    formData.append("file", uploadedImg);
-    formData.append(
-      "upload_preset",
-      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
-    );
-
-    const response = await fetch(url, {
-      method: "post",
-      body: formData,
-    });
-
-    const data = await response.json();
-    console.log(data);
-    debugger;
-
-    let _plato = { ...plato };
-    _plato["img"] = data.url;
-    _plato["imgID"] = data.asset_id;
-    setPlato(_plato);
-
-    setLoading(false);
     setSubmitted(true);
+
+    let _plato;
+
+    if (imgChanged) {
+      setLoading(true);
+
+      //Subo la imagen a Cloudinary
+      const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
+
+      const formData = new FormData();
+      formData.append("file", uploadedImg);
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+      );
+
+      const response = await fetch(url, {
+        method: "post",
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data);
+      debugger;
+
+      _plato = { ...plato };
+      _plato["img"] = data.url;
+      _plato["imgID"] = data.asset_id;
+      setPlato(_plato);
+
+      setLoading(false);
+    } else {
+      _plato = { ...plato };
+    }
 
     if (plato.nombre.trim()) {
       let _platos = [...platos];
-      debugger;
+
       if (plato.id !== "") {
         const index = findIndexById(plato.id);
 
@@ -453,6 +480,7 @@ const Table = ({}) => {
 
       setPlatos(_platos);
       setPlatoDialog(false);
+      setImgChanged(false);
       setPlato(PLATO_VACIO);
     }
   };
@@ -590,6 +618,7 @@ const Table = ({}) => {
   };
 
   const onDropzoneChange = (img) => {
+    setImgChanged(true);
     setUploadedImg(img);
   };
 
