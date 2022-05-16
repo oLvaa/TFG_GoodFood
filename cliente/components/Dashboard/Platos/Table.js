@@ -284,6 +284,7 @@ const Table = ({}) => {
   const [expandedRows, setExpandedRows] = useState(null);
   const [uploadedImg, setUploadedImg] = useState();
   const [imgChanged, setImgChanged] = useState(false);
+  const [fromEdit, setFromEdit] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const toast = useRef(null);
@@ -385,6 +386,7 @@ const Table = ({}) => {
   //Edición
 
   const editPlato = (plato) => {
+    setFromEdit(true);
     setPlato({ ...plato });
     setPlatoDialog(true);
   };
@@ -426,6 +428,10 @@ const Table = ({}) => {
     if (imgChanged) {
       setLoading(true);
 
+      if (fromEdit) {
+        //Aquí irá el endpoint al que le pasará el public id de la foto y el back la borrará
+      }
+
       //Subo la imagen a Cloudinary
       const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
 
@@ -446,7 +452,7 @@ const Table = ({}) => {
       debugger;
 
       _plato = { ...plato };
-      _plato["img"] = data.url;
+      _plato["img"] = data.secure_url;
       _plato["imgID"] = data.asset_id;
       setPlato(_plato);
 
@@ -481,6 +487,7 @@ const Table = ({}) => {
       setPlatos(_platos);
       setPlatoDialog(false);
       setImgChanged(false);
+      setFromEdit(false);
       setPlato(PLATO_VACIO);
     }
   };
@@ -494,6 +501,7 @@ const Table = ({}) => {
   };
 
   const deletePlato = () => {
+    //Aquí habrá que llamar al endpoint para borrar imagenes de cloudinary
     let _platos = platos.filter((val) => val.id !== plato.id);
     setPlatos(_platos);
     setDeletePlatoDialog(false);
