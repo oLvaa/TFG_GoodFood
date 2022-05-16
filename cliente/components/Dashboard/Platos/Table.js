@@ -3,7 +3,7 @@ import "primereact/resources/themes/saga-green/theme.css";
 import "primereact/resources/primereact.css";
 
 import React, { useState, useEffect, useRef } from "react";
-import { gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
@@ -20,8 +20,9 @@ import { Toast } from "primereact/toast";
 import { CircularProgress } from "@mui/material";
 
 const NUEVO_PLATO = gql`
-  mutation NuevoPlato {
-    nuevoPlato {
+  mutation NuevoPlato($input: PlatoInput) {
+    nuevoPlato(input: $input) {
+      id
       nombre
       img
       imgID
@@ -59,6 +60,8 @@ const Table = ({ data }) => {
     { label: "Volumen", value: "Volumen" },
   ];
 
+  const [nuevoPlato] = useMutation(NUEVO_PLATO);
+
   const [platos, setPlatos] = useState(data);
   const [plato, setPlato] = useState(PLATO_VACIO);
   const [submitted, setSubmitted] = useState(false);
@@ -77,7 +80,6 @@ const Table = ({ data }) => {
   const toast = useRef(null);
 
   useEffect(() => {
-    //AQUÍ VA EL FETCH
     initFilters();
   }, []);
 
@@ -208,13 +210,11 @@ const Table = ({ data }) => {
   };
 
   const savePlato = async () => {
+    setLoading(true);
     setSubmitted(true);
-
     let _plato;
 
     if (imgChanged) {
-      setLoading(true);
-
       if (fromEdit) {
         //Aquí irá el endpoint al que le pasará el public id de la foto y el back la borrará
       }
@@ -235,15 +235,11 @@ const Table = ({ data }) => {
       });
 
       const data = await response.json();
-      console.log(data);
-      debugger;
 
       _plato = { ...plato };
       _plato["img"] = data.secure_url;
       _plato["imgID"] = data.asset_id;
       setPlato(_plato);
-
-      setLoading(false);
     } else {
       _plato = { ...plato };
     }
@@ -255,6 +251,7 @@ const Table = ({ data }) => {
         const index = findIndexById(plato.id);
 
         _platos[index] = _plato;
+        setLoading(false);
         toast.current.show({
           severity: "success",
           summary: "Plato actualizado",
@@ -262,13 +259,57 @@ const Table = ({ data }) => {
           life: 5000,
         });
       } else {
-        _platos.unshift(_plato);
-        toast.current.show({
-          severity: "success",
-          summary: "Plato creado",
-          detail: "La base de datos ha sido actualizada",
-          life: 5000,
-        });
+        const {
+          nombre,
+          img,
+          imgID,
+          pack,
+          enMenu,
+          precio,
+          peso,
+          calorias,
+          proteina,
+          carbohidrato,
+          grasa,
+        } = _plato;
+
+        try {
+          const { data } = await nuevoPlato({
+            variables: {
+              input: {
+                nombre,
+                img,
+                imgID,
+                pack,
+                enMenu,
+                precio,
+                peso,
+                calorias,
+                proteina,
+                carbohidrato,
+                grasa,
+              },
+            },
+          });
+
+          _platos.unshift(_plato);
+          setLoading(false);
+          toast.current.show({
+            severity: "success",
+            summary: "Plato creado",
+            detail: "Guardado satisfactoriamente en la base de datos",
+            life: 5000,
+          });
+        } catch (error) {
+          setLoading(false);
+          console.log(error);
+          toast.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: error,
+            life: 5000,
+          });
+        }
       }
 
       setPlatos(_platos);
