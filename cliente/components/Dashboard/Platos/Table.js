@@ -16,6 +16,7 @@ import { Button } from "primereact/button";
 import { InputSwitch } from "primereact/inputswitch";
 import Dropzone from "./Dropzone";
 import { Toast } from "primereact/toast";
+import { CircularProgress } from "@mui/material";
 
 //PASAR TAMBIÉN ID Y PONER NOMBRE DESPUÉS DEL ID - IMAGEN DESPUES DEL NOMBRE - PRECIO ANTES DE PESO Y PESO ANTES DE MACROS
 const data = [
@@ -31,6 +32,7 @@ const data = [
     peso: 300,
     precio: 6.5,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "2",
@@ -45,6 +47,7 @@ const data = [
     peso: 400,
     precio: 6,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "3",
@@ -59,6 +62,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "4",
@@ -73,6 +77,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "5",
@@ -87,6 +92,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "6",
@@ -101,6 +107,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "7",
@@ -115,6 +122,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "8",
@@ -129,6 +137,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "9",
@@ -143,6 +152,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "10",
@@ -157,6 +167,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "11",
@@ -171,6 +182,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "12",
@@ -185,6 +197,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "13",
@@ -199,6 +212,7 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
   {
     id: "14",
@@ -213,19 +227,24 @@ const data = [
     peso: 250,
     precio: 7.2,
     img: "https://res.cloudinary.com/freshara/image/upload/v1648107705/i7fjjaslnzvgczgoramx.jpg",
+    imgID: "",
   },
 ].reverse();
 
-const Table = () => {
-  let PLATO_VACIO = {
+const Table = ({}) => {
+  const PLATO_VACIO = {
     id: "",
     pack: "",
     enMenu: null,
     nombre: "",
-    macros: [{ calorias: 0, proteina: 0, carbohidrato: 0, grasa: 0 }],
+    calorias: 0,
+    proteina: 0,
+    carbohidrato: 0,
+    grasa: 0,
     peso: 0,
     precio: 0,
     img: "",
+    imgID: "",
   };
 
   const PACK_DROPDOWN_ITEMS = [
@@ -245,6 +264,7 @@ const Table = () => {
   const [platosSeleccionados, setPlatosSeleccionados] = useState(null);
   const [expandedRows, setExpandedRows] = useState(null);
   const [uploadedImg, setUploadedImg] = useState();
+  const [loading, setLoading] = useState(false);
 
   const toast = useRef(null);
 
@@ -378,33 +398,38 @@ const Table = () => {
     return index;
   };
 
-  const savePlato = () => {
+  const savePlato = async () => {
+    setLoading(true);
+
+    //Subo la imagen a Cloudinary
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
+
+    const formData = new FormData();
+    formData.append("file", uploadedImg);
+    formData.append(
+      "upload_preset",
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+    );
+
+    const response = await fetch(url, {
+      method: "post",
+      body: formData,
+    });
+
+    const data = await response.json();
+    console.log(data);
+    debugger;
+
+    let _plato = { ...plato };
+    _plato["img"] = data.url;
+    _plato["imgID"] = data.asset_id;
+    setPlato(_plato);
+
+    setLoading(false);
     setSubmitted(true);
-
-    //CÓDIGO PARA SUBIR LA IMAGEN
-    //*********************************************************************************************/
-
-    // const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
-
-    // const formData = new FormData();
-    // formData.append("file", acceptedFile[0]);
-    // formData.append(
-    //   "upload_preset",
-    //   process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
-    // );
-
-    // const response = await fetch(url, {
-    //   method: "post",
-    //   body: formData,
-    // });
-
-    // const data = await response.json();
-
-    //*********************************************************************************************/
 
     if (plato.nombre.trim()) {
       let _platos = [...platos];
-      let _plato = { ...plato };
       debugger;
       if (plato.id !== "") {
         const index = findIndexById(plato.id);
@@ -623,24 +648,25 @@ const Table = () => {
     return (
       <>
         <button
-          className="bg-green-500 p-3 text-white rounded-md mr-2"
+          className="bg-main p-3 text-white rounded-md mr-2"
           onClick={openNew}
         >
           <i className="pi pi-plus mr-2 "></i>
           Nuevo plato
         </button>
-        <button
-          className={`${
-            !platosSeleccionados || !platosSeleccionados.length
-              ? "bg-red-400"
-              : "bg-red-500"
-          } p-3 text-white rounded-md`}
-          onClick={confirmDeleteSelected}
-          disabled={!platosSeleccionados || !platosSeleccionados.length}
-        >
-          <i className="pi pi-trash mr-2 "></i>
-          Eliminar
-        </button>
+
+        {!platosSeleccionados || !platosSeleccionados.length ? (
+          <div />
+        ) : (
+          <button
+            className="bg-red-500 p-3 text-white rounded-md"
+            onClick={confirmDeleteSelected}
+            disabled={!platosSeleccionados || !platosSeleccionados.length}
+          >
+            <i className="pi pi-trash mr-2 "></i>
+            Eliminar
+          </button>
+        )}
       </>
     );
   };
@@ -765,135 +791,146 @@ const Table = () => {
           ></Column>
         </DataTable>
       </div>
+
       <Dialog
         visible={platoDialog}
         style={{ width: "450px" }}
         header="Detalles del plato"
         modal
         className="p-fluid space-y"
-        footer={platoDialogFooter}
+        footer={!loading && platoDialogFooter}
         onHide={hideDialog}
-        dismissableMask={true}
+        dismissableMask={loading ? false : true}
+        closable={loading ? false : true}
         blockScroll={true}
-        maskClassName={"bg-red-100"}
       >
-        <div className="field mb-12">
-          <label className="font-bold" htmlFor="nombre">
-            Nombre
-          </label>
-          <InputText
-            id="nombre"
-            value={plato.nombre}
-            onChange={(e) => onInputChange(e, "nombre")}
-            required
-            autoFocus
-          />
-        </div>
-
-        <div className="field mb-12">
-          <label className="font-bold" htmlFor="img">
-            Imagen
-          </label>
-          <Dropzone img={plato.img} onDropzoneChange={onDropzoneChange} />
-        </div>
-
-        <div className="field mb-12">
-          <label className="font-bold">Pack</label>
-          <div className="formgrid grid">
-            <Dropdown
-              value={plato.pack}
-              options={PACK_DROPDOWN_ITEMS}
-              onChange={onPackChange}
-              placeholder="Selecciona un pack"
-            />
+        {loading ? (
+          <div className="flex w-full justify-center">
+            <CircularProgress color="success" />
           </div>
-        </div>
-
-        <div className="field mb-12">
-          <label className="font-bold">Menú</label>
-          <div className="formgrid grid">
-            <InputSwitch checked={plato.enMenu} onChange={onMenuChange} />
-          </div>
-        </div>
-
-        <div className="formgrid grid">
-          <div className="field col mb-12">
-            <label className="font-bold" htmlFor="precio">
-              Precio
-            </label>
-            <InputNumber
-              id="precio"
-              value={plato.precio}
-              onValueChange={(e) => onInputNumberChange(e, "precio")}
-              mode="currency"
-              currency="EUR"
-              locale="es-ES"
-            />
-          </div>
-
-          <div className="field col mb-12 flex space-x-6">
-            <div className="flex flex-col">
-              <label className="font-bold" htmlFor="peso">
-                Peso
+        ) : (
+          <>
+            <div className="field mb-12">
+              <label className="font-bold" htmlFor="nombre">
+                Nombre
               </label>
-              <InputNumber
-                id="peso"
-                value={plato.peso}
-                onValueChange={(e) => onInputNumberChange(e, "peso")}
-                integeronly
+              <InputText
+                id="nombre"
+                value={plato.nombre}
+                onChange={(e) => onInputChange(e, "nombre")}
+                required
+                autoFocus
               />
             </div>
 
-            <div className="flex flex-col">
-              <label className="font-bold" htmlFor="calorias">
-                Calorias
+            <div className="field mb-12">
+              <label className="font-bold" htmlFor="img">
+                Imagen
               </label>
-              <InputNumber
-                id="calorias"
-                value={plato.calorias}
-                onValueChange={(e) => onMacrosInputChange(e, "calorias")}
-                integeronly
-              />
-            </div>
-          </div>
-
-          <div className="field col flex space-x-6 mb-12">
-            <div className="flex flex-col">
-              <label className="font-bold" htmlFor="proteina">
-                Proteina
-              </label>
-              <InputNumber
-                id="proteina"
-                value={plato.proteina}
-                onValueChange={(e) => onMacrosInputChange(e, "proteina")}
-                integeronly
-              />
+              <Dropzone img={plato.img} onDropzoneChange={onDropzoneChange} />
             </div>
 
-            <div className="flex flex-col">
-              <label className="font-bold" htmlFor="carbohidrato">
-                Carbohidrato
-              </label>
-              <InputNumber
-                id="carbohidrato"
-                value={plato.carbohidrato}
-                onValueChange={(e) => onMacrosInputChange(e, "carbohidrato")}
-                integeronly
-              />
+            <div className="field mb-12">
+              <label className="font-bold">Pack</label>
+              <div className="formgrid grid">
+                <Dropdown
+                  value={plato.pack}
+                  options={PACK_DROPDOWN_ITEMS}
+                  onChange={onPackChange}
+                  placeholder="Selecciona un pack"
+                />
+              </div>
             </div>
-            <div className="flex flex-col">
-              <label className="font-bold" htmlFor="grasa">
-                Grasas
-              </label>
-              <InputNumber
-                id="grasa"
-                value={plato.grasa}
-                onValueChange={(e) => onMacrosInputChange(e, "grasa")}
-                integeronly
-              />
+
+            <div className="field mb-12">
+              <label className="font-bold">Menú</label>
+              <div className="formgrid grid">
+                <InputSwitch checked={plato.enMenu} onChange={onMenuChange} />
+              </div>
             </div>
-          </div>
-        </div>
+
+            <div className="formgrid grid">
+              <div className="field col mb-12">
+                <label className="font-bold" htmlFor="precio">
+                  Precio
+                </label>
+                <InputNumber
+                  id="precio"
+                  value={plato.precio}
+                  onValueChange={(e) => onInputNumberChange(e, "precio")}
+                  mode="currency"
+                  currency="EUR"
+                  locale="es-ES"
+                />
+              </div>
+
+              <div className="field col mb-12 flex space-x-6">
+                <div className="flex flex-col">
+                  <label className="font-bold" htmlFor="peso">
+                    Peso
+                  </label>
+                  <InputNumber
+                    id="peso"
+                    value={plato.peso}
+                    onValueChange={(e) => onInputNumberChange(e, "peso")}
+                    integeronly
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <label className="font-bold" htmlFor="calorias">
+                    Calorias
+                  </label>
+                  <InputNumber
+                    id="calorias"
+                    value={plato.calorias}
+                    onValueChange={(e) => onMacrosInputChange(e, "calorias")}
+                    integeronly
+                  />
+                </div>
+              </div>
+
+              <div className="field col flex space-x-6 mb-12">
+                <div className="flex flex-col">
+                  <label className="font-bold" htmlFor="proteina">
+                    Proteina
+                  </label>
+                  <InputNumber
+                    id="proteina"
+                    value={plato.proteina}
+                    onValueChange={(e) => onMacrosInputChange(e, "proteina")}
+                    integeronly
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <label className="font-bold" htmlFor="carbohidrato">
+                    Carbohidrato
+                  </label>
+                  <InputNumber
+                    id="carbohidrato"
+                    value={plato.carbohidrato}
+                    onValueChange={(e) =>
+                      onMacrosInputChange(e, "carbohidrato")
+                    }
+                    integeronly
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label className="font-bold" htmlFor="grasa">
+                    Grasas
+                  </label>
+                  <InputNumber
+                    id="grasa"
+                    value={plato.grasa}
+                    onValueChange={(e) => onMacrosInputChange(e, "grasa")}
+                    integeronly
+                  />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </Dialog>
 
       <Dialog

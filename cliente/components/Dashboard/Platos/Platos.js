@@ -29,7 +29,9 @@ const Platos = () => {
     <div>
       <h1 className="text-[2.5rem] text-oscuro mb-12">Platos</h1>
       {loading ? (
-        <CircularProgress color="success" />
+        <div className="w-full h-full flex justify-center items-center">
+          <CircularProgress color="success" />
+        </div>
       ) : (
         <div className="border border-b-0">
           <Table data={data} />

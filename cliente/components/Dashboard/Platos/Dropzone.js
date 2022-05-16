@@ -32,10 +32,10 @@ const rejectStyle = {
 const Dropzone = ({ img, onDropzoneChange }) => {
   const [imagen, setImagen] = useState(img);
 
-  const onDrop = useCallback(async (acceptedFile) => {
+  const onDrop = (acceptedFile) => {
     onDropzoneChange(acceptedFile[0]);
     setImagen(URL.createObjectURL(acceptedFile[0]));
-  }, []);
+  };
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
