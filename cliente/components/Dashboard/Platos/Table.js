@@ -44,6 +44,24 @@ const ELIMINAR_PLATOS = gql`
   }
 `;
 
+const ACTUALIZAR_PLATO = gql`
+  mutation ActualizarPlato($id: ID!, $input: PlatoInput) {
+    actualizarPlato(id: $id, input: $input) {
+      nombre
+      img
+      imgID
+      pack
+      enMenu
+      precio
+      peso
+      calorias
+      proteina
+      carbohidrato
+      grasa
+    }
+  }
+`;
+
 const Table = ({ data }) => {
   const PLATO_VACIO = {
     id: "",
@@ -68,6 +86,7 @@ const Table = ({ data }) => {
 
   const [nuevoPlato] = useMutation(NUEVO_PLATO);
   const [eliminarPlatos] = useMutation(ELIMINAR_PLATOS);
+  const [actualizarPlato] = useMutation(ACTUALIZAR_PLATO);
 
   const [platos, setPlatos] = useState(data);
   const [plato, setPlato] = useState(PLATO_VACIO);
@@ -255,8 +274,43 @@ const Table = ({ data }) => {
 
     if (plato.nombre.trim()) {
       let _platos = [...platos];
+      const {
+        nombre,
+        img,
+        imgID,
+        pack,
+        enMenu,
+        precio,
+        peso,
+        calorias,
+        proteina,
+        carbohidrato,
+        grasa,
+      } = _plato;
 
       if (plato.id !== "") {
+        try {
+          const { data } = await actualizarPlato({
+            variables: {
+              id: plato.id,
+              input: {
+                nombre,
+                img,
+                imgID,
+                pack,
+                enMenu,
+                precio,
+                peso,
+                calorias,
+                proteina,
+                carbohidrato,
+                grasa,
+              },
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
         const index = findIndexById(plato.id);
         _platos[index] = _plato;
         setLoading(false);
@@ -267,20 +321,6 @@ const Table = ({ data }) => {
           life: 5000,
         });
       } else {
-        const {
-          nombre,
-          img,
-          imgID,
-          pack,
-          enMenu,
-          precio,
-          peso,
-          calorias,
-          proteina,
-          carbohidrato,
-          grasa,
-        } = _plato;
-
         try {
           const { data } = await nuevoPlato({
             variables: {
