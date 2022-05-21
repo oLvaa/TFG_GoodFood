@@ -545,14 +545,16 @@ const Table = ({ data }) => {
           icon="pi pi-file-excel"
           onClick={exportExcel}
           className="p-button-success mr-2"
-          data-pr-tooltip="XLS"
+          tooltip="XLS"
+          tooltipOptions={{ position: "top" }}
         />
         <Button
           type="button"
           icon="pi pi-file-pdf"
           onClick={exportPdf}
-          className="p-button-warning mr-2 bg-red-500"
-          data-pr-tooltip="PDF"
+          className="p-button-warning mr-2"
+          tooltip="PDF"
+          tooltipOptions={{ position: "top" }}
         />
       </div>
     );
@@ -564,13 +566,17 @@ const Table = ({ data }) => {
       <div className="flex justify-end w-full space-x-2">
         <Button
           icon="pi pi-pencil"
-          className="p-button-rounded p-button-success mr-2"
+          className="p-button-rounded p-button-success mr-2 "
           onClick={() => editPlato(rowData)}
+          tooltipOptions={{ position: "top" }}
+          tooltip="Editar"
         />
         <Button
           icon="pi pi-trash"
-          className="p-button-rounded p-button-warning"
+          className="p-button-rounded p-button-warning "
           onClick={() => confirmDeletePlato(rowData)}
+          tooltipOptions={{ position: "top" }}
+          tooltip="Eliminar"
         />
       </div>
     );
