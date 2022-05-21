@@ -18,6 +18,7 @@ const OBTENER_PLATOS = gql`
       proteina
       carbohidrato
       grasa
+      ingredientes
     }
   }
 `;

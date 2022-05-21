@@ -34,6 +34,7 @@ const NUEVO_PLATO = gql`
       proteina
       carbohidrato
       grasa
+      ingredientes
     }
   }
 `;
@@ -58,6 +59,7 @@ const ACTUALIZAR_PLATO = gql`
       proteina
       carbohidrato
       grasa
+      ingredientes
     }
   }
 `;
@@ -76,6 +78,7 @@ const Table = ({ data }) => {
     proteina: 0,
     carbohidrato: 0,
     grasa: 0,
+    ingredientes: "",
   };
 
   const PACK_DROPDOWN_ITEMS = [
@@ -286,6 +289,7 @@ const Table = ({ data }) => {
         proteina,
         carbohidrato,
         grasa,
+        ingredientes,
       } = _plato;
 
       if (plato.id !== "") {
@@ -305,6 +309,7 @@ const Table = ({ data }) => {
                 proteina,
                 carbohidrato,
                 grasa,
+                ingredientes,
               },
             },
           });
@@ -336,6 +341,7 @@ const Table = ({ data }) => {
                 proteina,
                 carbohidrato,
                 grasa,
+                ingredientes,
               },
             },
           });
@@ -442,6 +448,7 @@ const Table = ({ data }) => {
     { field: "proteina", header: "Proteína" },
     { field: "carbohidrato", header: "Carbohidratos" },
     { field: "grasa", header: "Grasas" },
+    { field: "ingredientes", header: "Ingredientes" },
   ];
 
   const exportColumns = cols.map((col) => ({
@@ -491,6 +498,7 @@ const Table = ({ data }) => {
 
   //Formulario
   const onInputChange = (e, name) => {
+    debugger;
     const val = (e.target && e.target.value) || "";
     let _plato = { ...plato };
     _plato[`${name}`] = val;
@@ -656,6 +664,7 @@ const Table = ({ data }) => {
   //Expandible JSX
   const rowExpansionTemplate = (data) => {
     let FormattedData = [data];
+    console.log(FormattedData);
     return (
       <div className="orders-subtable">
         <DataTable
@@ -667,6 +676,11 @@ const Table = ({ data }) => {
           <Column field="proteina" header="Proteína (g)"></Column>
           <Column field="carbohidrato" header="Carbohidratos (g)"></Column>
           <Column field="grasa" header="Grasas (g)"></Column>
+          <Column
+            field="ingredientes"
+            header="Ingredientes"
+            style={{ maxWidth: "5%", wordBreak: "break-all" }}
+          ></Column>
         </DataTable>
       </div>
     );
@@ -743,7 +757,6 @@ const Table = ({ data }) => {
         className="p-fluid space-y"
         footer={!loading && platoDialogFooter}
         onHide={hideDialog}
-        dismissableMask={loading ? false : true}
         closable={loading ? false : true}
         blockScroll={true}
       >
@@ -870,6 +883,17 @@ const Table = ({ data }) => {
                     integeronly
                   />
                 </div>
+              </div>
+              <div className="field mb-12">
+                <label className="font-bold" htmlFor="ingredientes">
+                  Ingredientes
+                </label>
+                <InputText
+                  id="ingredientes"
+                  value={plato.ingredientes}
+                  onChange={(e) => onInputChange(e, "ingredientes")}
+                  required
+                />
               </div>
             </div>
           </>

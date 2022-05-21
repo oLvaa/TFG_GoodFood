@@ -46,6 +46,10 @@ const PlatosSchema = mongoose.Schema({
     type: Number,
     trim: true,
   },
+  ingredientes: {
+    type: String,
+    trim: true,
+  },
 });
 
 module.exports = mongoose.model("Plato", PlatosSchema);

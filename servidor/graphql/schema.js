@@ -66,6 +66,7 @@ const typeDefs = gql`
     proteina: Int
     carbohidrato: Int
     grasa: Int
+    ingredientes: String
   }
 
   input PlatoInput {
@@ -80,6 +81,7 @@ const typeDefs = gql`
     proteina: Int
     carbohidrato: Int
     grasa: Int
+    ingredientes: String
   }
 `;
 
