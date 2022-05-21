@@ -267,11 +267,11 @@ const Table = ({ data }) => {
     setLoading(true);
     setSubmitted(true);
     let _plato = { ...plato };
-
+    debugger;
     if (imgChanged) {
-      _plato = cloudinaryHandler(_plato);
+      _plato = await cloudinaryHandler(_plato);
     }
-
+    debugger;
     if (plato.nombre.trim()) {
       let _platos = [...platos];
       const {
@@ -360,7 +360,7 @@ const Table = ({ data }) => {
           });
         }
       }
-
+      debugger;
       setPlatos(_platos);
       setPlatoDialog(false);
       setImgChanged(false);

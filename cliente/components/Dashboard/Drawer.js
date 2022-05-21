@@ -182,11 +182,9 @@ export default function PersistentDrawerRight({ handleDrawerState }) {
         </div>
         <div className="flex justify-center w-full p-8">
           <div>
-            <Link href="/">
-              <a>
-                <LogoutIcon sx={{ color: red[600] }} />
-              </a>
-            </Link>
+            <a href="/">
+              <LogoutIcon sx={{ color: red[600] }} />
+            </a>
           </div>
         </div>
       </Drawer>

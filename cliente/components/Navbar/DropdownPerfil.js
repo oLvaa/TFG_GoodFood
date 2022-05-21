@@ -23,11 +23,11 @@ const DropdownPerfil = () => {
           </div>
           <div onClick={() => setAbierto(!abierto)}>
             {auth.admin && (
-              <Link href="/dashboard/home">
-                <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3 ">
-                  <a className="cursor-pointer text-sm">Dashboard</a>
+              <a href="/dashboard/home" className="cursor-pointer text-sm ">
+                <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3">
+                  Dashboard
                 </div>
-              </Link>
+              </a>
             )}
 
             <Link href="/">
