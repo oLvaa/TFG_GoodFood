@@ -209,39 +209,41 @@ const Table = ({ data }) => {
     return index;
   };
 
+  const cloudinaryHandler = async (_plato) => {
+    if (fromEdit) {
+      //Aquí irá el endpoint al que le pasará el public id de la foto y el back la borrará
+    }
+
+    //Subo la imagen a Cloudinary
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
+
+    const formData = new FormData();
+    formData.append("file", uploadedImg);
+    formData.append(
+      "upload_preset",
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+    );
+
+    const response = await fetch(url, {
+      method: "post",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    _plato["img"] = data.secure_url;
+    _plato["imgID"] = data.asset_id;
+    setPlato(_plato);
+    return _plato;
+  };
+
   const savePlato = async () => {
     setLoading(true);
     setSubmitted(true);
-    let _plato;
+    let _plato = { ...plato };
 
     if (imgChanged) {
-      if (fromEdit) {
-        //Aquí irá el endpoint al que le pasará el public id de la foto y el back la borrará
-      }
-
-      //Subo la imagen a Cloudinary
-      const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
-
-      const formData = new FormData();
-      formData.append("file", uploadedImg);
-      formData.append(
-        "upload_preset",
-        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
-      );
-
-      const response = await fetch(url, {
-        method: "post",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      _plato = { ...plato };
-      _plato["img"] = data.secure_url;
-      _plato["imgID"] = data.asset_id;
-      setPlato(_plato);
-    } else {
-      _plato = { ...plato };
+      _plato = cloudinaryHandler(_plato);
     }
 
     if (plato.nombre.trim()) {
@@ -249,13 +251,12 @@ const Table = ({ data }) => {
 
       if (plato.id !== "") {
         const index = findIndexById(plato.id);
-
         _platos[index] = _plato;
         setLoading(false);
         toast.current.show({
           severity: "success",
           summary: "Plato actualizado",
-          detail: "La base de datos ha sido actualizada",
+          detail: "Actualizado correctamente en la base de datos",
           life: 5000,
         });
       } else {
@@ -291,16 +292,16 @@ const Table = ({ data }) => {
               },
             },
           });
-
           _platos.unshift(_plato);
           setLoading(false);
           toast.current.show({
             severity: "success",
             summary: "Plato creado",
-            detail: "Guardado satisfactoriamente en la base de datos",
+            detail: "Guardado correctamente en la base de datos",
             life: 5000,
           });
         } catch (error) {
+          //Aquí irá el endpoint al que le pasará el public id de la foto y el back la borrará
           setLoading(false);
           console.log(error);
           toast.current.show({
@@ -550,7 +551,7 @@ const Table = ({ data }) => {
           type="button"
           icon="pi pi-file-pdf"
           onClick={exportPdf}
-          className="p-button-warning mr-2"
+          className="p-button-warning mr-2 bg-red-500"
           data-pr-tooltip="PDF"
         />
       </div>
