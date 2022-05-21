@@ -38,6 +38,12 @@ const NUEVO_PLATO = gql`
   }
 `;
 
+const ELIMINAR_PLATOS = gql`
+  mutation EliminarPlatos($input: [ID]!) {
+    eliminarPlatos(input: $input)
+  }
+`;
+
 const Table = ({ data }) => {
   const PLATO_VACIO = {
     id: "",
@@ -61,6 +67,7 @@ const Table = ({ data }) => {
   ];
 
   const [nuevoPlato] = useMutation(NUEVO_PLATO);
+  const [eliminarPlatos] = useMutation(ELIMINAR_PLATOS);
 
   const [platos, setPlatos] = useState(data);
   const [plato, setPlato] = useState(PLATO_VACIO);
@@ -292,6 +299,7 @@ const Table = ({ data }) => {
               },
             },
           });
+          _plato = data.nuevoPlato;
           _platos.unshift(_plato);
           setLoading(false);
           toast.current.show({
@@ -329,8 +337,18 @@ const Table = ({ data }) => {
     setDeletePlatosDialog(false);
   };
 
-  const deletePlato = () => {
+  const deletePlato = async () => {
     //Aquí habrá que llamar al endpoint para borrar imagenes de cloudinary
+    const input = [plato.id];
+    try {
+      const { data } = await eliminarPlatos({
+        variables: {
+          input,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
     let _platos = platos.filter((val) => val.id !== plato.id);
     setPlatos(_platos);
     setDeletePlatoDialog(false);
@@ -343,7 +361,20 @@ const Table = ({ data }) => {
     });
   };
 
-  const deleteSelectedPlatos = () => {
+  const deleteSelectedPlatos = async () => {
+    const input = [];
+    platosSeleccionados.forEach((plato) => {
+      input.push(plato.id);
+    });
+    try {
+      const { data } = await eliminarPlatos({
+        variables: {
+          input,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
     let _platos = platos.filter((val) => !platosSeleccionados.includes(val));
     setPlatos(_platos);
     setDeletePlatosDialog(false);

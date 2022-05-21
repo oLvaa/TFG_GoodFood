@@ -134,16 +134,23 @@ const resolvers = {
       return plato;
     },
 
-    eliminarPlato: async (_, { id }) => {
-      const plato = await Plato.findById(id);
+    eliminarPlatos: (_, { input }) => {
+      input.forEach(async (id) => {
+        const plato = await Plato.findById(id);
 
-      if (!plato) {
-        throw new Error("Plato no encontrado");
+        if (!plato) {
+          console.log(`El plato con id "${id}" no se ha encontrado`);
+          throw new Error("Plato no encontrado");
+        }
+
+        await Plato.findOneAndDelete({ _id: id });
+      });
+
+      if (input.length === 1) {
+        return "Plato eliminado";
+      } else {
+        return "Platos eliminados";
       }
-
-      await Plato.findOneAndDelete({ _id: id });
-
-      return "Plato eliminado";
     },
   },
 };

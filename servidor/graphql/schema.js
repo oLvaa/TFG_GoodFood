@@ -19,7 +19,7 @@ const typeDefs = gql`
     # Platos
     nuevoPlato(input: PlatoInput): Plato
     actualizarPlato(id: ID!, input: PlatoInput): Plato
-    eliminarPlato(id: ID!): String
+    eliminarPlatos(input: [ID]!): String
 
     # Platos personalizados
   }
