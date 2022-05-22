@@ -62,10 +62,10 @@ const typeDefs = gql`
     enMenu: Boolean
     precio: Float
     peso: Int
-    calorias: Int
-    proteina: Int
-    carbohidrato: Int
-    grasa: Int
+    calorias: Float
+    proteina: Float
+    carbohidrato: Float
+    grasa: Float
     ingredientes: String
   }
 
@@ -77,10 +77,10 @@ const typeDefs = gql`
     enMenu: Boolean
     precio: Float
     peso: Int
-    calorias: Int
-    proteina: Int
-    carbohidrato: Int
-    grasa: Int
+    calorias: Float
+    proteina: Float
+    carbohidrato: Float
+    grasa: Float
     ingredientes: String
   }
 `;

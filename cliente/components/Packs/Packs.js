@@ -23,129 +23,27 @@ const OBTENER_PLATOS = gql`
       proteina
       carbohidrato
       grasa
+      ingredientes
     }
   }
 `;
 
-const datos = [
-  {
-    id: 1,
-    pack: "Definición",
-    nombre: "Texas Outlaw BBQ Chicken",
-    calorias: 250,
-    proteina: 40,
-    carbohidrato: 85,
-    grasa: 25,
-    ingredientes:
-      "Zucchini, Shrimp, Bell Pepper, Quinoa, Olive Oil, Jalapeno, Lime Juice, Cilantro, Parsley, Green Onion, Minced Garlic, Salt, Mint, Black Pepper",
-    peso: 300,
-    precio: 7.5,
-    img: "/prueba.jpg",
-  },
-  {
-    id: 2,
-    pack: "Definición",
-    nombre: "Grandma's Roast Turkey with Cranberry Sauce",
-    calorias: 250,
-    proteina: 40,
-    carbohidrato: 85,
-    grasa: 25,
-    ingredientes:
-      "Zucchini, Shrimp, Bell Pepper, Quinoa, Olive Oil, Jalapeno, Lime Juice, Cilantro, Parsley, Green Onion, Minced Garlic, Salt, Mint, Black Pepper",
-    peso: 300,
-    precio: 7.5,
-    img: "/prueba.jpg",
-  },
-  {
-    id: 3,
-    pack: "Definición",
-    nombre: "Plato 3",
-    calorias: 250,
-    proteina: 40,
-    carbohidrato: 85,
-    grasa: 25,
-    ingredientes:
-      "Zucchini, Shrimp, Bell Pepper, Quinoa, Olive Oil, Jalapeno, Lime Juice, Cilantro, Parsley, Green Onion, Minced Garlic, Salt, Mint, Black Pepper",
-    peso: 300,
-    precio: 7.5,
-    img: "/prueba.jpg",
-  },
-  {
-    id: 4,
-    pack: "Rendimiento",
-    nombre: "Plato 4",
-    calorias: 250,
-    proteina: 40,
-    carbohidrato: 85,
-    grasa: 25,
-    ingredientes:
-      "Zucchini, Shrimp, Bell Pepper, Quinoa, Olive Oil, Jalapeno, Lime Juice, Cilantro, Parsley, Green Onion, Minced Garlic, Salt, Mint, Black Pepper",
-    peso: 300,
-    precio: 7.5,
-    img: "/prueba.jpg",
-  },
-  {
-    id: 5,
-    pack: "Rendimiento",
-    nombre: "Plato 5",
-    calorias: 250,
-    proteina: 40,
-    carbohidrato: 85,
-    grasa: 25,
-    ingredientes:
-      "Zucchini, Shrimp, Bell Pepper, Quinoa, Olive Oil, Jalapeno, Lime Juice, Cilantro, Parsley, Green Onion, Minced Garlic, Salt, Mint, Black Pepper",
-    peso: 300,
-    precio: 7.5,
-    img: "/prueba.jpg",
-  },
-  {
-    id: 6,
-    pack: "Rendimiento",
-    nombre: "Plato 6",
-    calorias: 250,
-    proteina: 40,
-    carbohidrato: 85,
-    grasa: 25,
-    ingredientes:
-      "Zucchini, Shrimp, Bell Pepper, Quinoa, Olive Oil, Jalapeno, Lime Juice, Cilantro, Parsley, Green Onion, Minced Garlic, Salt, Mint, Black Pepper",
-    peso: 300,
-    precio: 7.5,
-    img: "/prueba.jpg",
-  },
-
-  {
-    id: 7,
-    pack: "Volumen",
-    nombre: "Plato 7",
-    calorias: 250,
-    proteina: 40,
-    carbohidrato: 85,
-    grasa: 25,
-    ingredientes:
-      "Zucchini, Shrimp, Bell Pepper, Quinoa, Olive Oil, Jalapeno, Lime Juice, Cilantro, Parsley, Green Onion, Minced Garlic, Salt, Mint, Black Pepper",
-    peso: 300,
-    precio: 7.5,
-    img: "/prueba.jpg",
-  },
-  {
-    id: 8,
-    pack: "Volumen",
-    nombre: "Plato 8",
-    calorias: 250,
-    proteina: 40,
-    carbohidrato: 85,
-    grasa: 25,
-    ingredientes:
-      "Zucchini, Shrimp, Bell Pepper, Quinoa, Olive Oil, Jalapeno, Lime Juice, Cilantro, Parsley, Green Onion, Minced Garlic, Salt, Mint, Black Pepper",
-    peso: 300,
-    precio: 7.5,
-    img: "/prueba.jpg",
-  },
-];
-
 const Packs = () => {
   const [filtered, setFiltered] = useState([]);
   const [packActivo, setPackActivo] = useState("Definición");
+  const [precio, setPrecio] = useState();
+  const [numPlatos, setNumPlatos] = useState();
+
+  useEffect(() => {
+    let _precio = 0;
+    let num = 0;
+    filtered.forEach((plato) => {
+      _precio += plato.precio;
+      num++;
+    });
+    setPrecio(_precio);
+    setNumPlatos(num);
+  }, [filtered]);
 
   const { loading, error, data } = useQuery(OBTENER_PLATOS);
 
@@ -170,15 +68,30 @@ const Packs = () => {
             Platos bajos en carbohidratos y calorías para ayudar a la pérdida de
             peso
           </p>
-          <Grid container spacing={8} columns={{ xs: 1, sm: 8, md: 12 }}>
-            {filtered.map((plato) => {
-              return (
-                <Grid item xs={2} sm={4} md={4} key={plato.id}>
-                  <Plato plato={plato} />
-                </Grid>
-              );
-            })}
-          </Grid>
+          {filtered.length > 0 ? (
+            <>
+              <Grid container spacing={8} columns={{ xs: 1, sm: 8, md: 12 }}>
+                {filtered.map((plato) => {
+                  return (
+                    <Grid item xs={2} sm={4} md={4} key={plato.id}>
+                      <Plato plato={plato} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+              <div className="mt-[4rem]">
+                <button className="bg-oscuro text-white flex items-center p-3 rounded-md">
+                  <div className="mr-10">
+                    {precio}€<br></br>
+                    {numPlatos} platos
+                  </div>
+                  <div className="text-lg">Añadir al carro</div>
+                </button>
+              </div>
+            </>
+          ) : (
+            <div>No se encontraron platos</div>
+          )}
         </>
       )}
     </Contenedor>

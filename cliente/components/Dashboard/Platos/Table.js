@@ -8,6 +8,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { InputNumber } from "primereact/inputnumber";
 import { Image } from "primereact/image";
@@ -85,6 +86,7 @@ const Table = ({ data }) => {
     { label: "Definición", value: "Definición" },
     { label: "Rendimiento", value: "Rendimiento" },
     { label: "Volumen", value: "Volumen" },
+    { label: "Sin pack", value: null },
   ];
 
   const [nuevoPlato] = useMutation(NUEVO_PLATO);
@@ -245,14 +247,12 @@ const Table = ({ data }) => {
 
     //Subo la imagen a Cloudinary
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
-
     const formData = new FormData();
     formData.append("file", uploadedImg);
     formData.append(
       "upload_preset",
       process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
     );
-
     const response = await fetch(url, {
       method: "post",
       body: formData,
@@ -270,11 +270,9 @@ const Table = ({ data }) => {
     setLoading(true);
     setSubmitted(true);
     let _plato = { ...plato };
-    debugger;
     if (imgChanged) {
       _plato = await cloudinaryHandler(_plato);
     }
-    debugger;
     if (plato.nombre.trim()) {
       let _platos = [...platos];
       const {
@@ -366,7 +364,6 @@ const Table = ({ data }) => {
           });
         }
       }
-      debugger;
       setPlatos(_platos);
       setPlatoDialog(false);
       setImgChanged(false);
@@ -664,7 +661,6 @@ const Table = ({ data }) => {
   //Expandible JSX
   const rowExpansionTemplate = (data) => {
     let FormattedData = [data];
-    console.log(FormattedData);
     return (
       <div className="orders-subtable">
         <DataTable
@@ -841,7 +837,7 @@ const Table = ({ data }) => {
                     id="calorias"
                     value={plato.calorias}
                     onValueChange={(e) => onMacrosInputChange(e, "calorias")}
-                    integeronly
+                    maxFractionDigits={2}
                   />
                 </div>
               </div>
@@ -855,7 +851,7 @@ const Table = ({ data }) => {
                     id="proteina"
                     value={plato.proteina}
                     onValueChange={(e) => onMacrosInputChange(e, "proteina")}
-                    integeronly
+                    maxFractionDigits={2}
                   />
                 </div>
 
@@ -869,7 +865,7 @@ const Table = ({ data }) => {
                     onValueChange={(e) =>
                       onMacrosInputChange(e, "carbohidrato")
                     }
-                    integeronly
+                    maxFractionDigits={2}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -880,7 +876,7 @@ const Table = ({ data }) => {
                     id="grasa"
                     value={plato.grasa}
                     onValueChange={(e) => onMacrosInputChange(e, "grasa")}
-                    integeronly
+                    maxFractionDigits={2}
                   />
                 </div>
               </div>
@@ -888,7 +884,7 @@ const Table = ({ data }) => {
                 <label className="font-bold" htmlFor="ingredientes">
                   Ingredientes
                 </label>
-                <InputText
+                <InputTextarea
                   id="ingredientes"
                   value={plato.ingredientes}
                   onChange={(e) => onInputChange(e, "ingredientes")}

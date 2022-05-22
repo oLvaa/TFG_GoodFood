@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const Filtro = ({ platos, setFiltered, packActivo, setPackActivo }) => {
   useEffect(() => {
-    const filtered = platos.filter((plato) => plato.pack.includes(packActivo));
+    const filtered = platos.filter((plato) => plato.pack?.includes(packActivo));
     setFiltered(filtered);
   }, [packActivo]);
 

@@ -12,9 +12,9 @@ const Plato = ({ plato }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(plato);
+
   return (
-    <div>
+    <div className="h-full">
       <div className="h-full flex flex-col justify-center shadow-md rounded-lg transform transition duration-300 hover:scale-110">
         <div onClick={handleOpen} className="cursor-pointer ">
           <img

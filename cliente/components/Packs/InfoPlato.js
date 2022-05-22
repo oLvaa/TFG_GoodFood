@@ -12,7 +12,7 @@ const InfoPlato = ({ plato }) => {
   } = plato;
   return (
     <div className="flex p-6 items-center">
-      <div className="w-[50rem] mr-4">
+      <div className="w-[50rem] mr-6">
         <img className="rounded-lg" src={plato.img} alt="Plato de comida" />
       </div>
       <div className="flex flex-col space-y-6">

@@ -26,7 +26,6 @@ const resolvers = {
     obtenerPlatos: async () => {
       try {
         let platos = await Plato.find({});
-        console.log(platos);
         platos = platos.reverse();
         return platos;
       } catch (error) {
