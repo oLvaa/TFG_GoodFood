@@ -80,12 +80,12 @@ const Packs = () => {
                 })}
               </Grid>
               <div className="mt-[4rem]">
-                <button className="bg-oscuro text-white flex items-center p-3 rounded-md">
-                  <div className="mr-10">
+                <button className="bg-oscuro hover:bg-black text-white flex items-center p-3 rounded-md">
+                  <div className="mr-10 text-lg">
                     {precio}€<br></br>
                     {numPlatos} platos
                   </div>
-                  <div className="text-lg">Añadir al carro</div>
+                  <div className="text-xl">Añadir al carro</div>
                 </button>
               </div>
             </>

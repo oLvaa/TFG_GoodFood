@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import { ApolloProvider } from "@apollo/client"; //ApolloProvider funciona como el provider del context
 import client from "../config/apollo";
 import AuthContext from "../context/AuthContext";
+import CartContext from "../context/CartContext";
 import jwtDecode from "jwt-decode";
 import { useRouter } from "next/router";
 
@@ -44,14 +45,27 @@ function MyApp({ Component, pageProps }) {
     [auth]
   );
 
+  const cartData = useMemo(
+    () => ({
+      productosCarrito: 0,
+      añadirProductoCarrito: () => null,
+      getProductosCarrito: () => null,
+      borrarProductoCarrito: () => null,
+      borrarProductosCarrito: () => null,
+    }),
+    []
+  );
+
   //De esta forma no entra en la app hasta que no haya hecho efecto el useEffect, tanto para saber si está autenticado como si no
   if (auth === undefined) return null;
 
   return (
     <AuthContext.Provider value={authData}>
-      <ApolloProvider client={client}>
-        <Component {...pageProps} />
-      </ApolloProvider>
+      <CartContext.Provider value={cartData}>
+        <ApolloProvider client={client}>
+          <Component {...pageProps} />
+        </ApolloProvider>
+      </CartContext.Provider>
     </AuthContext.Provider>
   );
 }
