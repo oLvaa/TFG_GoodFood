@@ -71,16 +71,12 @@ const Login = () => {
             },
           },
         });
-        setMensajeLogin("Autenticando...");
 
-        setTimeout(() => {
-          // Guardo el token en localstorage
-          const { token } = data.autenticarUsuario;
-          localStorage.setItem("token", token);
-          login(token);
-          setMensajeLogin(null);
-          router.push("/");
-        }, 3000);
+        // Guardo el token en localstorage
+        const { token } = data.autenticarUsuario;
+        localStorage.setItem("token", token);
+        login(token);
+        router.push("/");
       } catch (error) {
         setMensajeBack(error.message.replace("GraphQL error: ", ""));
       }
