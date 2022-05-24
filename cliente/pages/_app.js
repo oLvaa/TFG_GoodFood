@@ -1,11 +1,15 @@
 import { useMemo, useState, useEffect } from "react";
-import "../styles/globals.css";
 import { ApolloProvider } from "@apollo/client"; //ApolloProvider funciona como el provider del context
 import client from "../config/apollo";
 import AuthContext from "../context/AuthContext";
 import CartContext from "../context/CartContext";
 import jwtDecode from "jwt-decode";
 import { useRouter } from "next/router";
+import { getProductosCarrito, añadirProductoCarrito } from "./api/cart";
+import { toast, ToastContainer } from "react-toastify";
+
+import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }) {
   //AUTENTICACIÓN
@@ -45,11 +49,20 @@ function MyApp({ Component, pageProps }) {
     [auth]
   );
 
+  const añadirProducto = (producto) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      añadirProductoCarrito(producto);
+    } else {
+      toast.warning("Para añadir al carrito tienes que iniciar sesión");
+    }
+  };
+
   const cartData = useMemo(
     () => ({
       productosCarrito: 0,
-      añadirProductoCarrito: () => null,
-      getProductosCarrito: () => null,
+      añadirProductoCarrito: (producto) => añadirProducto(producto),
+      getProductosCarrito: getProductosCarrito,
       borrarProductoCarrito: () => null,
       borrarProductosCarrito: () => null,
     }),
@@ -64,6 +77,17 @@ function MyApp({ Component, pageProps }) {
       <CartContext.Provider value={cartData}>
         <ApolloProvider client={client}>
           <Component {...pageProps} />
+          <ToastContainer
+            position="top-right"
+            autoClose={2500}
+            hideProgressBar
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover
+          />
         </ApolloProvider>
       </CartContext.Provider>
     </AuthContext.Provider>

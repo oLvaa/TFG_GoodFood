@@ -7,6 +7,7 @@ import Contenedor from "../Contenedor";
 import Plato from "./Plato";
 import Filtro from "./Filtro";
 import CircularProgress from "@mui/material/CircularProgress";
+import useCart from "../../hooks/useCart";
 
 const OBTENER_PLATOS = gql`
   query ObtenerPlatos {
@@ -33,6 +34,7 @@ const Packs = () => {
   const [packActivo, setPackActivo] = useState("Definición");
   const [precio, setPrecio] = useState();
   const [numPlatos, setNumPlatos] = useState();
+  const { añadirProductoCarrito } = useCart();
 
   useEffect(() => {
     let _precio = 0;
@@ -80,7 +82,15 @@ const Packs = () => {
                 })}
               </Grid>
               <div className="mt-[4rem]">
-                <button className="bg-oscuro hover:bg-black text-white flex items-center p-3 rounded-md">
+                <button
+                  onClick={() => {
+                    let packCarrito = {};
+                    packCarrito.nombre = `Pack ${filtered[0]?.pack}`;
+                    packCarrito.valores = filtered;
+                    añadirProductoCarrito(packCarrito);
+                  }}
+                  className="bg-oscuro hover:bg-black text-white flex items-center p-3 rounded-md"
+                >
                   <div className="mr-10 text-lg">
                     {precio}€<br></br>
                     {numPlatos} platos
