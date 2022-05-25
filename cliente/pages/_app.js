@@ -5,15 +5,21 @@ import AuthContext from "../context/AuthContext";
 import CartContext from "../context/CartContext";
 import jwtDecode from "jwt-decode";
 import { useRouter } from "next/router";
-import { getProductosCarrito, añadirProductoCarrito } from "./api/cart";
+import {
+  getProductosCarrito,
+  añadirProductoCarrito,
+  contarProductosCarrito,
+} from "./api/cart";
 import { toast, ToastContainer } from "react-toastify";
 
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }) {
-  //AUTENTICACIÓN
   const [auth, setAuth] = useState(undefined);
+  const [numProductos, setNumProductos] = useState(0);
+  const [productosCarrito, setProductosCarrito] = useState([]);
+  const [reloadCarrito, setReloadCarrito] = useState(false);
   const [reloadUser, setReloadUser] = useState(false);
   const router = useRouter();
 
@@ -26,6 +32,13 @@ function MyApp({ Component, pageProps }) {
     }
     setReloadUser(false);
   }, [reloadUser]);
+
+  useEffect(() => {
+    setNumProductos(contarProductosCarrito());
+    setProductosCarrito(getProductosCarrito());
+    setReloadCarrito(false);
+    console.log(productosCarrito);
+  }, [reloadCarrito, auth]);
 
   const login = (token) => {
     setAuth(jwtDecode(token));
@@ -53,6 +66,7 @@ function MyApp({ Component, pageProps }) {
     const token = localStorage.getItem("token");
     if (token) {
       añadirProductoCarrito(producto);
+      setReloadCarrito(true);
     } else {
       toast.warning("Para añadir al carrito tienes que iniciar sesión");
     }
@@ -60,13 +74,14 @@ function MyApp({ Component, pageProps }) {
 
   const cartData = useMemo(
     () => ({
-      productosCarrito: 0,
+      numProductosCarrito: numProductos,
+      productosCarrito: productosCarrito,
       añadirProductoCarrito: (producto) => añadirProducto(producto),
       getProductosCarrito: getProductosCarrito,
       borrarProductoCarrito: () => null,
       borrarProductosCarrito: () => null,
     }),
-    []
+    [numProductos, productosCarrito]
   );
 
   //De esta forma no entra en la app hasta que no haya hecho efecto el useEffect, tanto para saber si está autenticado como si no
@@ -79,7 +94,7 @@ function MyApp({ Component, pageProps }) {
           <Component {...pageProps} />
           <ToastContainer
             position="top-right"
-            autoClose={2500}
+            autoClose={1000}
             hideProgressBar
             newestOnTop
             closeOnClick

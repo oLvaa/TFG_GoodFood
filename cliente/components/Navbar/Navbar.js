@@ -5,9 +5,15 @@ import DropdownMenu from "./DropdownMenu";
 import DropdownPerfil from "./DropdownPerfil";
 import Logo from "./Logo";
 import useAuth from "../../hooks/useAuth";
+import useCart from "../../hooks/useCart";
+import { Badge } from "primereact/badge";
+import "primeicons/primeicons.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.css";
 
 const Navbar = () => {
   const { auth } = useAuth();
+  const { numProductosCarrito } = useCart();
   //Routing de next
   const router = useRouter();
   let path = router.pathname;
@@ -80,10 +86,11 @@ const Navbar = () => {
         </nav>
 
         <nav className="list-none flex space-x-12 relative">
-          <li>
+          <li className="p-overlay-badge">
             <Link href="/">
               <a>
                 <img src="/Iconos/carrito.svg" alt="Icono carrito" width={33} />
+                <Badge value={`${numProductosCarrito}`} severity="danger" />
               </a>
             </Link>
           </li>

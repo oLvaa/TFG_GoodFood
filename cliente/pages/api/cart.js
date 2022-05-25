@@ -22,3 +22,13 @@ export function añadirProductoCarrito(producto) {
   }
   toast.success("Producto añadido al carrito");
 }
+
+export function contarProductosCarrito() {
+  const cart = getProductosCarrito();
+
+  if (!cart) {
+    return 0;
+  } else {
+    return cart.length;
+  }
+}
