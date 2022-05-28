@@ -1,5 +1,6 @@
 const Usuario = require("../models/Usuario");
 const Plato = require("../models/Plato");
+const Pedido = require("../models/Pedido");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });

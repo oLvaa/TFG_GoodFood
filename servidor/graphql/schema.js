@@ -22,6 +22,9 @@ const typeDefs = gql`
     eliminarPlatos(input: [ID]!): String
 
     # Platos personalizados
+
+    # Pedidos
+    nuevoPedido(input: PedidoInput): Pedido
   }
 
   type Usuario {
@@ -82,6 +85,21 @@ const typeDefs = gql`
     carbohidrato: Float
     grasa: Float
     ingredientes: String
+  }
+
+  type Pedido {
+    id: ID
+    importe: Float
+    info: String
+    idUsuario: ID
+    idPago: String
+    creado: String
+  }
+
+  input PedidoInput {
+    importe: Float!
+    info: String!
+    Token: String!
   }
 `;
 
