@@ -9,6 +9,7 @@ import {
   getProductosCarrito,
   añadirProductoCarrito,
   contarProductosCarrito,
+  borrarProductoCarrito,
 } from "./api/cart";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -37,7 +38,6 @@ function MyApp({ Component, pageProps }) {
     setNumProductos(contarProductosCarrito());
     setProductosCarrito(getProductosCarrito());
     setReloadCarrito(false);
-    console.log(productosCarrito);
   }, [reloadCarrito, auth]);
 
   const login = (token) => {
@@ -72,13 +72,18 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
+  const borrarProducto = (producto) => {
+    borrarProductoCarrito(producto);
+    setReloadCarrito(true);
+  };
+
   const cartData = useMemo(
     () => ({
       numProductosCarrito: numProductos,
       productosCarrito: productosCarrito,
       añadirProductoCarrito: (producto) => añadirProducto(producto),
       getProductosCarrito: getProductosCarrito,
-      borrarProductoCarrito: () => null,
+      borrarProductoCarrito: (producto) => borrarProducto(producto),
       borrarProductosCarrito: () => null,
     }),
     [numProductos, productosCarrito]
@@ -93,7 +98,7 @@ function MyApp({ Component, pageProps }) {
         <ApolloProvider client={client}>
           <Component {...pageProps} />
           <ToastContainer
-            position="top-right"
+            position="bottom-right"
             autoClose={1000}
             hideProgressBar
             newestOnTop
