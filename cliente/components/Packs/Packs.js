@@ -47,6 +47,30 @@ const Packs = () => {
     setNumPlatos(num);
   }, [filtered]);
 
+  const packCarrito = () => {
+    let packObj = {};
+    packObj.nombre = `Pack ${packActivo}`;
+    switch (packActivo) {
+      case "Definición":
+        packObj.img =
+          "https://res.cloudinary.com/goodfoodtfg/image/upload/v1653662638/definicion_bzat6g.png";
+        break;
+      case "Rendimiento":
+        packObj.img =
+          "https://res.cloudinary.com/goodfoodtfg/image/upload/v1653662638/rendimiento_dtnmsq.png";
+        break;
+      case "Volumen":
+        packObj.img =
+          "https://res.cloudinary.com/goodfoodtfg/image/upload/v1653662638/volumen_ndeqtr.png";
+        break;
+    }
+    packObj.valores = filtered;
+    packObj.tipo = "pack";
+    packObj.numPlatos = numPlatos;
+    packObj.precio = precio;
+    return packObj;
+  };
+
   const { loading, error, data } = useQuery(OBTENER_PLATOS);
 
   return (
@@ -58,7 +82,8 @@ const Packs = () => {
       ) : (
         <>
           <h1 className="mb-[8rem] mt-12 text-center text-4xl">
-            PACK PARA <span className="palabraSpan">DEFINICIÓN</span>
+            PACK PARA{" "}
+            <span className="palabraSpan uppercase">{packActivo}</span>
           </h1>
           <Filtro
             platos={data.obtenerPlatos}
@@ -84,12 +109,9 @@ const Packs = () => {
               <div className="mt-[4rem]">
                 <button
                   onClick={() => {
-                    let packCarrito = {};
-                    packCarrito.nombre = `Pack ${filtered[0]?.pack}`;
-                    packCarrito.valores = filtered;
-                    añadirProductoCarrito(packCarrito);
+                    añadirProductoCarrito(packCarrito());
                   }}
-                  className="bg-oscuro hover:bg-black text-white flex items-center p-3 rounded-md"
+                  className="blackButton"
                 >
                   <div className="mr-10 text-lg">
                     {precio}€<br></br>
