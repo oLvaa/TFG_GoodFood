@@ -495,7 +495,6 @@ const Table = ({ data }) => {
 
   //Formulario
   const onInputChange = (e, name) => {
-    debugger;
     const val = (e.target && e.target.value) || "";
     let _plato = { ...plato };
     _plato[`${name}`] = val;

@@ -30,9 +30,9 @@ const drawerWidth = 240;
 
 const PRIMERA_PARTE = [
   {
-    text: "Home",
+    text: "Inicio",
     icon: <EqualizerIcon />,
-    url: "home",
+    url: "inicio",
   },
   {
     text: "Platos",
@@ -137,7 +137,7 @@ export default function PersistentDrawerRight({ handleDrawerState }) {
       >
         <DrawerHeader>
           <div className="w-full">
-            <Link href="/dashboard/home">
+            <Link href="/dashboard/inicio">
               <a>
                 <img src="/logo.svg" alt="Logo" width={120} />
               </a>
