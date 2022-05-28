@@ -1,7 +1,8 @@
 import { createContext } from "react";
 
 const CartContext = createContext({
-  productosCarrito: 0,
+  numProductosCarrito: 0,
+  productosCarrito: null,
   añadirProductoCarrito: () => null,
   getProductosCarrito: () => null,
   borrarProductoCarrito: () => null,
