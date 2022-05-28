@@ -103,7 +103,7 @@ const FormularioPago = ({ user, productosCarrito }) => {
         />
       </label>
       <button
-        className="blackButton text-lg w-full flex justify-center p-1 mt-16"
+        className="blackButton text-lg w-full flex justify-center p-1 mt-10"
         type="submit"
         disabled={!stripe}
       >
