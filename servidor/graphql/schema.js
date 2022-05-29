@@ -9,6 +9,12 @@ const typeDefs = gql`
     # Platos
     obtenerPlatos: [Plato]
     obtenerPlato(id: ID!): Plato
+
+    # Platos personalizados
+
+    # Pedidos
+    obtenerPedidos: [Pedido]
+    obtenerPedidosUsuario(idUsuario: ID!): [Pedido]
   }
 
   type Mutation {
@@ -93,13 +99,15 @@ const typeDefs = gql`
     info: String
     idUsuario: ID
     idPago: String
+    direccion: String
+    piso: String
+    estado: String
     creado: String
   }
 
   input PedidoInput {
-    importe: Float!
     info: String!
-    Token: String!
+    token: String!
   }
 `;
 

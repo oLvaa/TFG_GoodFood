@@ -17,8 +17,12 @@ import "primereact/resources/primereact.css";
 
 const Navbar = () => {
   const { auth } = useAuth();
-  const { numProductosCarrito, productosCarrito, borrarProductoCarrito } =
-    useCart();
+  const {
+    numProductosCarrito,
+    productosCarrito,
+    borrarProductoCarrito,
+    borrarProductosCarrito,
+  } = useCart();
 
   //Routing de next
   const router = useRouter();
@@ -75,7 +79,7 @@ const Navbar = () => {
         </div>
         <Divider />
         <button
-          className="blackButton text-lg w-full flex justify-center p-1"
+          className="blackButton text-lg w-full flex justify-center p-2"
           disabled={total === 0 ? true : false}
           onClick={() => {
             onDisplayPagoDialog();
@@ -195,7 +199,11 @@ const Navbar = () => {
               dismissableMask={true}
               blockScroll={true}
             >
-              <Pago productosCarrito={productosCarrito} />
+              <Pago
+                productosCarrito={productosCarrito}
+                setDisplayPagoDialog={setDisplayPagoDialog}
+                borrarProductosCarrito={borrarProductosCarrito}
+              />
             </Dialog>
           </li>
 

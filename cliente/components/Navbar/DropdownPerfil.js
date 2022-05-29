@@ -23,7 +23,7 @@ const DropdownPerfil = () => {
           </div>
           <div onClick={() => setAbierto(!abierto)}>
             {auth.admin && (
-              <a href="/dashboard/home" className="cursor-pointer text-sm ">
+              <a href="/dashboard/inicio" className="cursor-pointer text-sm ">
                 <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3">
                   Dashboard
                 </div>
@@ -50,7 +50,7 @@ const DropdownPerfil = () => {
 
             <Link href="/">
               <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3 border-b ">
-                <a className="cursor-pointer text-sm">Platos</a>
+                <a className="cursor-pointer text-sm">Mis Platos</a>
               </div>
             </Link>
             <CerrarSesion logout={logout} />

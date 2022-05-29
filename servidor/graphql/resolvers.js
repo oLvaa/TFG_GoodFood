@@ -4,6 +4,7 @@ const Pedido = require("../models/Pedido");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const crearToken = (usuario, secreta, expiresIn) => {
   const { id, nombre, email, telefono, direccion, piso, admin } = usuario;
@@ -42,6 +43,28 @@ const resolvers = {
       }
 
       return plato;
+    },
+
+    obtenerPedidos: async () => {
+      try {
+        let pedidos = await Pedido.find({});
+        pedidos = pedidos.reverse();
+        return pedidos;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    obtenerPedidosUsuario: async (_, { idUsuario }) => {
+      const pedidos = await Pedido.find({
+        idUsuario: idUsuario,
+      });
+
+      if (!pedidos) {
+        throw new Error("No hay pedidos");
+      }
+
+      return pedidos;
     },
   },
 
@@ -150,6 +173,41 @@ const resolvers = {
         return "Plato eliminado";
       } else {
         return "Platos eliminados";
+      }
+    },
+
+    nuevoPedido: async (_, { input }, ctx) => {
+      const { token, info } = input;
+
+      //Stripe
+      let importeTotal = 0;
+      JSON.parse(info).forEach((producto) => {
+        importeTotal += producto.precio;
+      });
+
+      let parsedToken = JSON.parse(token);
+
+      const charge = await stripe.charges.create({
+        amount: importeTotal * 100,
+        currency: "eur",
+        source: parsedToken.token.id,
+        description: `ID Usuario: ${ctx.usuario.id}`,
+      });
+
+      //Mongo
+      try {
+        const pedido = new Pedido({
+          importe: importeTotal,
+          info: info,
+          idUsuario: ctx.usuario.id,
+          idPago: charge.id,
+          direccion: ctx.usuario.direccion,
+          piso: ctx.usuario.piso ? ctx.usuario.piso : "",
+        });
+        const resultado = await pedido.save();
+        return resultado;
+      } catch (error) {
+        console.log(error);
       }
     },
   },

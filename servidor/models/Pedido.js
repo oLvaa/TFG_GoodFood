@@ -20,6 +20,18 @@ const PedidosSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  direccion: {
+    type: String,
+    required: true,
+  },
+  piso: {
+    type: String,
+    required: true,
+  },
+  estado: {
+    type: String,
+    default: "Pendiente de envío",
+  },
   creado: {
     type: Date,
     default: Date.now(),

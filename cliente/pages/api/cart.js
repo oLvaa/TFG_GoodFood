@@ -49,3 +49,7 @@ export function borrarProductoCarrito(producto) {
     localStorage.removeItem(CART);
   }
 }
+
+export function borrarProductosCarrito() {
+  localStorage.removeItem(CART);
+}

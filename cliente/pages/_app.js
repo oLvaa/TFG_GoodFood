@@ -10,6 +10,7 @@ import {
   añadirProductoCarrito,
   contarProductosCarrito,
   borrarProductoCarrito,
+  borrarProductosCarrito,
 } from "./api/cart";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -77,6 +78,11 @@ function MyApp({ Component, pageProps }) {
     setReloadCarrito(true);
   };
 
+  const borrarProductos = () => {
+    borrarProductosCarrito();
+    setReloadCarrito(true);
+  };
+
   const cartData = useMemo(
     () => ({
       numProductosCarrito: numProductos,
@@ -84,7 +90,7 @@ function MyApp({ Component, pageProps }) {
       añadirProductoCarrito: (producto) => añadirProducto(producto),
       getProductosCarrito: getProductosCarrito,
       borrarProductoCarrito: (producto) => borrarProducto(producto),
-      borrarProductosCarrito: () => null,
+      borrarProductosCarrito: () => borrarProductos(),
     }),
     [numProductos, productosCarrito]
   );
