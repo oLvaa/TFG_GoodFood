@@ -13,6 +13,7 @@ import {
   borrarProductosCarrito,
 } from "./api/cart";
 import { toast, ToastContainer } from "react-toastify";
+import { ScrollTop } from "primereact/scrolltop";
 
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -103,6 +104,7 @@ function MyApp({ Component, pageProps }) {
       <CartContext.Provider value={cartData}>
         <ApolloProvider client={client}>
           <Component {...pageProps} />
+          <ScrollTop threshold={200} />
           <ToastContainer
             position="bottom-right"
             autoClose={1000}
