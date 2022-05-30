@@ -1,11 +1,12 @@
 import React from "react";
 import Dashboard from "../../components/Dashboard/Dashboard";
+import Pedidos from "../../components/Dashboard/Pedidos/Pedidos";
 
 const pedidos = () => {
   return (
     <Dashboard>
       <div>
-        <h1 className="text-[2.5rem] text-oscuro">Pedidos</h1>
+        <Pedidos />
       </div>
     </Dashboard>
   );

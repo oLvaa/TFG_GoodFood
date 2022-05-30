@@ -210,6 +210,18 @@ const resolvers = {
         console.log(error);
       }
     },
+
+    actualizarPedido: async (_, { id, estado }) => {
+      let pedido = await Pedido.findById(id);
+
+      if (!pedido) {
+        throw new Error("Pedido no encontrado");
+      }
+
+      pedido = await Pedido.findOneAndUpdate({ _id: id }, { estado: estado });
+
+      return pedido;
+    },
   },
 };
 

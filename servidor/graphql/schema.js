@@ -31,6 +31,7 @@ const typeDefs = gql`
 
     # Pedidos
     nuevoPedido(input: PedidoInput): Pedido
+    actualizarPedido(id: ID!, estado: String!): Pedido
   }
 
   type Usuario {

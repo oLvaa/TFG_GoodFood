@@ -1,7 +1,3 @@
-import "primeicons/primeicons.css";
-import "primereact/resources/themes/saga-green/theme.css";
-import "primereact/resources/primereact.css";
-
 import React, { useState, useEffect, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { DataTable } from "primereact/datatable";
@@ -19,6 +15,10 @@ import { InputSwitch } from "primereact/inputswitch";
 import Dropzone from "./Dropzone";
 import { Toast } from "primereact/toast";
 import { CircularProgress } from "@mui/material";
+
+import "primeicons/primeicons.css";
+import "primereact/resources/themes/saga-green/theme.css";
+import "primereact/resources/primereact.css";
 
 const NUEVO_PLATO = gql`
   mutation NuevoPlato($input: PlatoInput) {
@@ -65,7 +65,7 @@ const ACTUALIZAR_PLATO = gql`
   }
 `;
 
-const Table = ({ data }) => {
+const TablaPlatos = ({ data }) => {
   const PLATO_VACIO = {
     id: "",
     nombre: "",
@@ -143,13 +143,13 @@ const Table = ({ data }) => {
   const menuBodyTemplate = (rowData) => {
     if (rowData.enMenu) {
       return (
-        <div className="bg-green-200 text-center text-green-600 font-semibold px-4 py-1 rounded-md w-[4rem]">
+        <div className="bg-green-300 text-center text-green-700 font-semibold px-4 py-1 rounded-md w-[4rem]">
           <span>Sí</span>
         </div>
       );
     } else {
       return (
-        <div className="bg-red-200 text-center text-red-600 font-semibold px-3 py-1 rounded-md w-[4rem]">
+        <div className="bg-red-300 text-center text-red-700 font-semibold px-3 py-1 rounded-md w-[4rem]">
           <span>No</span>
         </div>
       );
@@ -166,23 +166,6 @@ const Table = ({ data }) => {
     setGlobalFilterValue(value);
   };
 
-  const renderHeader = () => {
-    return (
-      <div className="flex justify-end">
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText
-            value={globalFilterValue}
-            onChange={onGlobalFilterChange}
-            placeholder="Buscar"
-          />
-        </span>
-      </div>
-    );
-  };
-
-  const header = renderHeader();
-
   const initFilters = () => {
     setFilters({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -197,7 +180,7 @@ const Table = ({ data }) => {
 
       precio: {
         operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
       },
     });
     setGlobalFilterValue("");
@@ -454,6 +437,7 @@ const Table = ({ data }) => {
   }));
 
   const exportPdf = () => {
+    console.log("PRUEBA");
     import("jspdf").then((jsPDF) => {
       import("jspdf-autotable").then(() => {
         const doc = new jsPDF.default(0, 0);
@@ -587,50 +571,64 @@ const Table = ({ data }) => {
   //Toolbar JSX
   const leftToolbarTemplate = () => {
     return (
-      <>
-        <button
-          className="bg-main p-3 text-white rounded-md mr-2"
-          onClick={openNew}
-        >
-          <i className="pi pi-plus mr-2 "></i>
-          Nuevo plato
-        </button>
-
-        {!platosSeleccionados || !platosSeleccionados.length ? (
-          <div />
-        ) : (
+      <div className="flex justify-between">
+        <div>
           <button
-            className="bg-red-500 p-3 text-white rounded-md"
-            onClick={confirmDeleteSelected}
-            disabled={!platosSeleccionados || !platosSeleccionados.length}
+            className="bg-main p-3 text-white rounded-md mr-2"
+            onClick={openNew}
           >
-            <i className="pi pi-trash mr-2 "></i>
-            Eliminar
+            <i className="pi pi-plus mr-2 "></i>
+            Nuevo plato
           </button>
-        )}
-      </>
+
+          {!platosSeleccionados || !platosSeleccionados.length ? (
+            <div />
+          ) : (
+            <button
+              className="bg-red-500 p-3 text-white rounded-md"
+              onClick={confirmDeleteSelected}
+              disabled={!platosSeleccionados || !platosSeleccionados.length}
+            >
+              <i className="pi pi-trash mr-2 "></i>
+              Eliminar
+            </button>
+          )}
+        </div>
+      </div>
     );
   };
 
   const rightToolbarTemplate = () => {
     return (
-      <div className="space-x-2">
-        <Button
-          type="button"
-          icon="pi pi-file-excel"
-          onClick={exportExcel}
-          className="p-button-success mr-2"
-          tooltip="XLS"
-          tooltipOptions={{ position: "top" }}
-        />
-        <Button
-          type="button"
-          icon="pi pi-file-pdf"
-          onClick={exportPdf}
-          className="p-button-warning mr-2"
-          tooltip="PDF"
-          tooltipOptions={{ position: "top" }}
-        />
+      <div className="flex space-x-2">
+        <div className="flex justify-end">
+          <span className="p-input-icon-left">
+            <i className="pi pi-search" />
+            <InputText
+              value={globalFilterValue}
+              onChange={onGlobalFilterChange}
+              placeholder="Buscar"
+            />
+          </span>
+        </div>
+        <div className="space-x-2">
+          <Button
+            type="button"
+            icon="pi pi-file-excel"
+            onClick={exportExcel}
+            className="p-button-success mr-2"
+            tooltip="XLS"
+            tooltipOptions={{ position: "top" }}
+          />
+          <Button
+            type="button"
+            icon="pi pi-file-pdf"
+            onClick={exportPdf}
+            className="p-button-warning mr-2"
+            tooltip="PDF"
+            tooltipOptions={{ position: "top" }}
+          />
+        </div>
       </div>
     );
   };
@@ -684,27 +682,21 @@ const Table = ({ data }) => {
   return (
     <div className="datatable-rowexpansion-demo">
       <Toast ref={toast} />
+      <Toolbar left={leftToolbarTemplate} right={rightToolbarTemplate} />
       <div className="card">
-        <Toolbar
-          className="mb-4"
-          left={leftToolbarTemplate}
-          right={rightToolbarTemplate}
-        />
-
         <DataTable
           value={platos}
           paginator
-          responsiveLayout="stack"
+          responsiveLayout="scroll"
           breakpoint="960px"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords}"
           rows={5}
           rowsPerPageOptions={[5, 10, 20]}
           removableSort
-          header={header}
           filters={filters}
           globalFilterFields={["nombre", "pack", "precio"]}
-          emptyMessage="No se encontraron platos."
+          emptyMessage="No se encontraron platos"
           dataKey="id" //???
           selectionMode="checkbox"
           selection={platosSeleccionados}
@@ -939,5 +931,4 @@ const Table = ({ data }) => {
     </div>
   );
 };
-
-export default Table;
+export default TablaPlatos;

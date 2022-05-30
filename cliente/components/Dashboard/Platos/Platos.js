@@ -1,7 +1,7 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import CircularProgress from "@mui/material/CircularProgress";
-import Table from "./Table";
+import TablaPlatos from "./Tabla-Platos";
 
 const OBTENER_PLATOS = gql`
   query ObtenerPlatos {
@@ -35,7 +35,7 @@ const Platos = () => {
         </div>
       ) : (
         <div className="border border-b-0">
-          <Table data={data.obtenerPlatos} />
+          <TablaPlatos data={data.obtenerPlatos} />
         </div>
       )}
     </div>

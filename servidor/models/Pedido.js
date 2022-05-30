@@ -30,7 +30,7 @@ const PedidosSchema = mongoose.Schema({
   },
   estado: {
     type: String,
-    default: "Pendiente de envío",
+    default: "Pendiente",
   },
   creado: {
     type: Date,
