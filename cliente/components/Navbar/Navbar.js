@@ -226,7 +226,7 @@ const Navbar = () => {
           </li>
 
           <li>
-            <Link href="/">
+            <Link href="/regalo">
               <a>
                 <img src="/Iconos/tarjeta.svg" alt="Icono tarjeta" width={33} />
               </a>

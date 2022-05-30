@@ -1,19 +1,19 @@
 import React from "react";
-import Layout from "../components/Layout";
 import Navbar from "../components/Navbar/Navbar";
+import Layout from "../components/Layout";
 import Footer from "../components/Footer/Footer";
-import WorkInProgress from "../components/WorkInProgress";
+import Pedidos from "../components/Perfil/Pedidos";
 
-const PlatoPersonalizado = () => {
+const pedidos = () => {
   return (
     <div>
       <Navbar />
       <Layout>
-        <WorkInProgress />
+        <Pedidos />
       </Layout>
       <Footer />
     </div>
   );
 };
 
-export default PlatoPersonalizado;
+export default pedidos;

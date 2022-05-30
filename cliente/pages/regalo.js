@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import WorkInProgress from "../components/WorkInProgress";
 
-const PlatoPersonalizado = () => {
+const Tarjeta = () => {
   return (
     <div>
       <Navbar />
@@ -16,4 +16,4 @@ const PlatoPersonalizado = () => {
   );
 };
 
-export default PlatoPersonalizado;
+export default Tarjeta;

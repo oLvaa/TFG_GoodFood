@@ -36,7 +36,7 @@ const DropdownPerfil = () => {
               </div>
             </Link>
 
-            <Link href="/">
+            <Link href="/pedidos">
               <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3 ">
                 <a className="cursor-pointer text-sm">Pedidos</a>
               </div>

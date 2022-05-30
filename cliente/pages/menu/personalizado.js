@@ -2,13 +2,14 @@ import React from "react";
 import Layout from "../../components/Layout";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import WorkInProgress from "../../components/WorkInProgress";
 
 const Personalizado = () => {
   return (
     <div>
       <Navbar />
       <Layout>
-        <h2>Personalizado</h2>
+        <WorkInProgress />
       </Layout>
       <Footer />
     </div>
