@@ -31,13 +31,16 @@ const Footer = () => {
           </div>
           <div>
             <h3 className="mb-[1rem]">ÚNETE A NUESTRO NEWSLETTER</h3>
-            <form action="" className="border border-contrasteGris flex">
+            <form
+              action=""
+              className="border border-contrasteGris flex rounded-md"
+            >
               <input
                 type="text"
                 placeholder="Correo electrónico"
-                className="py-[1rem] px-[0.5625rem] w-full focus:outline-none focus:placeholder:text-transparent placeholder:italic focus-wit"
+                className="py-[1rem] px-[0.5625rem] w-full focus:outline-none focus:placeholder:text-transparent placeholder:italic focus-wit rounded-l-md"
               />
-              <button className="px-[1rem] border-l border-contrasteGris bg-main text-fondoBlanco text-[1rem]">
+              <button className="px-[1rem] border-l border border-contrasteGris bg-main text-fondoBlanco text-[1rem] rounded-r-md">
                 Suscribir
               </button>
             </form>

@@ -15,7 +15,7 @@ const Reviews = () => {
           <p className="text-[1rem] font-semibold mt-[0.25rem]">4,8/5</p>
         </div>
       </div>
-      <div className="w-[14rem] text-center">
+      <div className="w-[13.25rem] text-center mt-2">
         <p className="text-[0.8rem]">Con un total de 1788 reviews</p>
       </div>
     </>
