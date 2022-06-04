@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import {
+  NUEVO_PLATO,
+  ELIMINAR_PLATOS,
+  ACTUALIZAR_PLATO,
+} from "../../../endpoints";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
@@ -18,51 +23,6 @@ import { CircularProgress } from "@mui/material";
 
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";
-
-const NUEVO_PLATO = gql`
-  mutation NuevoPlato($input: PlatoInput) {
-    nuevoPlato(input: $input) {
-      id
-      nombre
-      img
-      imgID
-      pack
-      enMenu
-      precio
-      peso
-      calorias
-      proteina
-      carbohidrato
-      grasa
-      ingredientes
-    }
-  }
-`;
-
-const ELIMINAR_PLATOS = gql`
-  mutation EliminarPlatos($input: [ID]!) {
-    eliminarPlatos(input: $input)
-  }
-`;
-
-const ACTUALIZAR_PLATO = gql`
-  mutation ActualizarPlato($id: ID!, $input: PlatoInput) {
-    actualizarPlato(id: $id, input: $input) {
-      nombre
-      img
-      imgID
-      pack
-      enMenu
-      precio
-      peso
-      calorias
-      proteina
-      carbohidrato
-      grasa
-      ingredientes
-    }
-  }
-`;
 
 const TablaPlatos = ({ data }) => {
   const PLATO_VACIO = {

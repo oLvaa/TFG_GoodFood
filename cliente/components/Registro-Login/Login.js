@@ -3,18 +3,11 @@ import Link from "next/link";
 import Contenedor from "../Contenedor";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { AUTENTICAR_USUARIO } from "../../endpoints";
 import { useRouter } from "next/router";
 import MensajeError from "./MensajeError";
 import useAuth from "../../hooks/useAuth";
-
-const AUTENTICAR_USUARIO = gql`
-  mutation AutenticarUsuario($input: AutenticarInput) {
-    autenticarUsuario(input: $input) {
-      token
-    }
-  }
-`;
 
 const Login = () => {
   const { login } = useAuth();

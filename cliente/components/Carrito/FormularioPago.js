@@ -6,7 +6,8 @@ import {
   CardCvcElement,
   CardExpiryElement,
 } from "@stripe/react-stripe-js";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { NUEVO_PEDIDO } from "../../endpoints";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 
@@ -33,22 +34,6 @@ const useOptions = () => {
 
   return options;
 };
-
-const NUEVO_PEDIDO = gql`
-  mutation Mutation($input: PedidoInput) {
-    nuevoPedido(input: $input) {
-      id
-      importe
-      info
-      idUsuario
-      idPago
-      direccion
-      piso
-      estado
-      creado
-    }
-  }
-`;
 
 const FormularioPago = ({
   productosCarrito,

@@ -2,32 +2,13 @@
 import Grid from "@mui/material/Grid";
 
 import React, { useEffect, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { OBTENER_PLATOS } from "../../endpoints";
 import Contenedor from "../Contenedor";
 import Plato from "./Plato";
 import Filtro from "./Filtro";
 import CircularProgress from "@mui/material/CircularProgress";
 import useCart from "../../hooks/useCart";
-
-const OBTENER_PLATOS = gql`
-  query ObtenerPlatos {
-    obtenerPlatos {
-      id
-      nombre
-      img
-      imgID
-      pack
-      enMenu
-      precio
-      peso
-      calorias
-      proteina
-      carbohidrato
-      grasa
-      ingredientes
-    }
-  }
-`;
 
 const Packs = () => {
   const [filtered, setFiltered] = useState([]);

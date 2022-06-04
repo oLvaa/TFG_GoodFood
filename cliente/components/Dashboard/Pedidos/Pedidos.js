@@ -1,23 +1,8 @@
 import React from "react";
 import TablaPedidos from "./Tabla-Pedidos";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { OBTENER_PEDIDOS } from "../../../endpoints";
 import CircularProgress from "@mui/material/CircularProgress";
-
-const OBTENER_PEDIDOS = gql`
-  query Query {
-    obtenerPedidos {
-      id
-      importe
-      info
-      idUsuario
-      idPago
-      direccion
-      estado
-      piso
-      creado
-    }
-  }
-`;
 
 const Pedidos = () => {
   const { loading, error, data } = useQuery(OBTENER_PEDIDOS);

@@ -1,27 +1,8 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { OBTENER_PLATOS } from "../../../endpoints";
 import CircularProgress from "@mui/material/CircularProgress";
 import TablaPlatos from "./Tabla-Platos";
-
-const OBTENER_PLATOS = gql`
-  query ObtenerPlatos {
-    obtenerPlatos {
-      id
-      nombre
-      img
-      imgID
-      pack
-      enMenu
-      precio
-      peso
-      calorias
-      proteina
-      carbohidrato
-      grasa
-      ingredientes
-    }
-  }
-`;
 
 const Platos = () => {
   const { loading, error, data } = useQuery(OBTENER_PLATOS);

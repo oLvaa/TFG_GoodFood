@@ -4,24 +4,10 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { usePlacesWidget } from "react-google-autocomplete";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { REGISTRAR_USUARIO } from "../../endpoints";
 import MensajeError from "./MensajeError";
 import Contenedor from "../Contenedor";
-
-const REGISTRAR_USUARIO = gql`
-  mutation Mutation($input: UsuarioInput) {
-    nuevoUsuario(input: $input) {
-      id
-      nombre
-      email
-      telefono
-      direccion
-      piso
-      admin
-      creado
-    }
-  }
-`;
 
 const Registro = () => {
   //Manejo de mensajes del servidor y registro

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { ACTUALIZAR_PEDIDO } from "../../../endpoints";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
@@ -12,14 +13,6 @@ import { Toast } from "primereact/toast";
 
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";
-
-const ACTUALIZAR_PEDIDO = gql`
-  mutation Mutation($actualizarPedidoId: ID!, $estado: String!) {
-    actualizarPedido(id: $actualizarPedidoId, estado: $estado) {
-      id
-    }
-  }
-`;
 
 const TablaPedidos = ({ data }) => {
   const [actualizarPedido] = useMutation(ACTUALIZAR_PEDIDO);
