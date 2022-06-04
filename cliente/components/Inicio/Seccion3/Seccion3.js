@@ -33,7 +33,7 @@ const Seccion3 = () => {
               icono="/Iconos/bookmark.svg"
               alt="Icono bookmark"
             />
-            <button className="absolute hover:bg-mainHover bg-main font-bold text-[0.875rem] text-fondoBlanco rounded-full w-[12.188rem] mt-[1.25rem]">
+            <button className="absolute bg-oscuro hover:bg-black font-bold text-[0.875rem] text-fondoBlanco rounded-full w-[12.188rem] mt-[1.25rem]">
               IR AHORA
             </button>
           </div>

@@ -16,7 +16,7 @@ const Seccion1 = () => {
             Comer es una necesidad, hacerlo de forma inteligente es un arte
           </p>
 
-          <button className="text-center bg-main hover:bg-mainHover text-fondoBlanco rounded-full px-[1.625rem] py-[0.8rem] text-[1.3rem]">
+          <button className="text-center bg-oscuro hover:bg-black text-fondoBlanco rounded-full px-[1.625rem] py-[0.8rem] text-[1.3rem]">
             Crea tu plato
           </button>
           <Reviews />
