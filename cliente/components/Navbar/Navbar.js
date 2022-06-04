@@ -10,9 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
 import { Badge } from "primereact/badge";
 import { Dialog } from "primereact/dialog";
-import { Divider } from "primereact/divider";
 import "primeicons/primeicons.css";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.css";
 
 const Navbar = () => {
@@ -71,13 +69,13 @@ const Navbar = () => {
   const renderFooter = () => {
     return (
       <div className="flex flex-col">
-        <Divider />
+        <hr></hr>
         <div className="flex justify-center">
-          <p className="text-xl font-normal">
+          <p className="text-xl font-normal my-2">
             Total: <span className="text-2xl font-bold">{total}€</span>
           </p>
         </div>
-        <Divider />
+        <hr className="mb-8"></hr>
         <button
           className="blackButton text-lg w-full flex justify-center p-2"
           disabled={total === 0 ? true : false}

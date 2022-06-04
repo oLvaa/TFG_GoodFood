@@ -11,7 +11,6 @@ import { Dropdown } from "primereact/dropdown";
 import { Toast } from "primereact/toast";
 
 import "primeicons/primeicons.css";
-import "primereact/resources/themes/saga-green/theme.css";
 import "primereact/resources/primereact.css";
 
 const ACTUALIZAR_PEDIDO = gql`

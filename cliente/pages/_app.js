@@ -17,6 +17,8 @@ import { ScrollTop } from "primereact/scrolltop";
 
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import Soporte from "../components/Soporte/Soporte";
+import "primereact/resources/themes/saga-green/theme.css";
 
 function MyApp({ Component, pageProps }) {
   const [auth, setAuth] = useState(undefined);
@@ -105,6 +107,7 @@ function MyApp({ Component, pageProps }) {
         <ApolloProvider client={client}>
           <Component {...pageProps} />
           <ScrollTop threshold={200} />
+          <Soporte />
           <ToastContainer
             position="bottom-right"
             autoClose={1000}

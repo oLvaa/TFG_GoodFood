@@ -17,7 +17,6 @@ import { Toast } from "primereact/toast";
 import { CircularProgress } from "@mui/material";
 
 import "primeicons/primeicons.css";
-import "primereact/resources/themes/saga-green/theme.css";
 import "primereact/resources/primereact.css";
 
 const NUEVO_PLATO = gql`
