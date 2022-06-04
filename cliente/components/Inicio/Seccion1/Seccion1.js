@@ -12,11 +12,11 @@ const Seccion1 = () => {
             <br /> momentos
           </h1>
 
-          <p className="mt-2 mb-6">
+          <p className="mt-4 mb-8">
             Comer es una necesidad, hacerlo de forma inteligente es un arte
           </p>
 
-          <button className="text-center bg-oscuro hover:bg-black text-fondoBlanco rounded-full px-[1.625rem] py-[0.8rem] text-[1.3rem]">
+          <button className="text-center bg-oscuro hover:bg-black text-fondoBlanco rounded-full px-[1.325rem] py-[0.5rem] text-[1rem]">
             Crea tu plato
           </button>
           <Reviews />

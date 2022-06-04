@@ -1,6 +1,7 @@
 const Usuario = require("../models/Usuario");
 const Plato = require("../models/Plato");
 const Pedido = require("../models/Pedido");
+const Mensaje = require("../models/Mensaje");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
@@ -65,6 +66,16 @@ const resolvers = {
       }
 
       return pedidos;
+    },
+
+    obtenerMensajes: async () => {
+      try {
+        let mensajes = await Mensaje.find({});
+        mensajes = mensajes.reverse();
+        return mensajes;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 
@@ -222,6 +233,35 @@ const resolvers = {
 
       return pedido;
     },
+
+    nuevoMensaje: async (_, { input }, ctx) => {
+      const { asunto, mensaje } = input;
+
+      try {
+        const _mensaje = new Mensaje({
+          asunto: asunto,
+          mensaje: mensaje,
+          idUsuario: ctx.usuario.id,
+        });
+        const resultado = await _mensaje.save();
+        return resultado;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    eliminarMensaje: (_, { id }) => {
+      const mensaje = await Mensaje.findById(id);
+
+        if (!mensaje) {
+          console.log(`El mensaje con id "${id}" no se ha encontrado`);
+          throw new Error("Mensaje no encontrado");
+        }
+
+        await Mensaje.findOneAndDelete({ _id: id });
+
+        return "Mensaje eliminado"
+    }
   },
 };
 

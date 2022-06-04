@@ -15,6 +15,9 @@ const typeDefs = gql`
     # Pedidos
     obtenerPedidos: [Pedido]
     obtenerPedidosUsuario(idUsuario: ID!): [Pedido]
+
+    # Mensajes
+    obtenerMensajes: [Mensaje]
   }
 
   type Mutation {
@@ -32,6 +35,10 @@ const typeDefs = gql`
     # Pedidos
     nuevoPedido(input: PedidoInput): Pedido
     actualizarPedido(id: ID!, estado: String!): Pedido
+
+    # Mensajes
+    nuevoMensaje(input: MensajeInput): Mensaje
+    eliminarMensaje(input: ID): String
   }
 
   type Usuario {
@@ -109,6 +116,19 @@ const typeDefs = gql`
   input PedidoInput {
     info: String!
     token: String!
+  }
+
+  type Mensaje {
+    id: ID
+    asunto: String
+    mensaje: String
+    idUsuario: ID
+    creado: String
+  }
+
+  input MensajeInput {
+    asunto: String!
+    mensaje: String!
   }
 `;
 
