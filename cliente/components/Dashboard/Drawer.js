@@ -45,9 +45,9 @@ const PRIMERA_PARTE = [
     url: "pedidos",
   },
   {
-    text: "Newsletter",
+    text: "Soporte",
     icon: <SendIcon />,
-    url: "newsletter",
+    url: "soporte",
   },
   {
     text: "Descuentos",
