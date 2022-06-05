@@ -15,7 +15,6 @@ const Support = () => {
   const [formData, setFormData] = useState({});
 
   const { auth } = useAuth();
-  console.log(auth);
 
   const formik = useFormik({
     initialValues: {
@@ -87,8 +86,8 @@ const Support = () => {
           ></i>
           <h2 className="text-[1.5rem]">Mensaje enviado!</h2>
           <p className="mt-3 text-[1.15rem] text-center">
-            El soporte se pondrá en contacto con usted por vía de la dirección:{" "}
-            <span className="font-medium mt-2">{auth.email}</span>
+            El soporte se pondrá en contacto con usted vía email, a través de la
+            dirección: <span className="font-medium mt-2">{auth?.email}</span>
           </p>
         </div>
       </Dialog>

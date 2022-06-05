@@ -6,6 +6,7 @@ import TablaPlatos from "./Tabla-Platos";
 
 const Platos = () => {
   const { loading, error, data } = useQuery(OBTENER_PLATOS);
+  console.log(data);
 
   return (
     <div>

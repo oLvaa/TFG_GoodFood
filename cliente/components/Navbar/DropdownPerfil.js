@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 
 const DropdownPerfil = () => {
   const [abierto, setAbierto] = useState(true);
-  const { logout, auth } = useAuth();
+  const { logout, auth, setReloadUser } = useAuth();
 
   return (
     <div

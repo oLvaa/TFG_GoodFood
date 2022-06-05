@@ -92,7 +92,7 @@ const Navbar = () => {
   const renderPagoFooter = () => {
     return <div></div>;
   };
-
+  console.log(numProductosCarrito);
   return (
     <div className="w-screen bg-fondoBlanco">
       <div className="flex items-center justify-between mx-auto w-full px-4  max-w-[2000px]">

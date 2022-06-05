@@ -40,7 +40,13 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     setNumProductos(contarProductosCarrito());
-    setProductosCarrito(getProductosCarrito());
+    if (auth) {
+      setProductosCarrito(getProductosCarrito());
+    } else {
+      setProductosCarrito(null);
+      setNumProductos(0);
+    }
+
     setReloadCarrito(false);
   }, [reloadCarrito, auth]);
 
@@ -52,6 +58,8 @@ function MyApp({ Component, pageProps }) {
     if (auth) {
       localStorage.removeItem("token");
       setAuth(null);
+      window.location.reload(true);
+
       router.push("/");
     }
   };

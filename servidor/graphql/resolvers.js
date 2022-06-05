@@ -250,18 +250,18 @@ const resolvers = {
       }
     },
 
-    eliminarMensaje: (_, { id }) => {
+    eliminarMensaje: async (_, { id }) => {
       const mensaje = await Mensaje.findById(id);
 
-        if (!mensaje) {
-          console.log(`El mensaje con id "${id}" no se ha encontrado`);
-          throw new Error("Mensaje no encontrado");
-        }
+      if (!mensaje) {
+        console.log(`El mensaje con id "${id}" no se ha encontrado`);
+        throw new Error("Mensaje no encontrado");
+      }
 
-        await Mensaje.findOneAndDelete({ _id: id });
+      await Mensaje.findOneAndDelete({ _id: id });
 
-        return "Mensaje eliminado"
-    }
+      return "Mensaje eliminado";
+    },
   },
 };
 
