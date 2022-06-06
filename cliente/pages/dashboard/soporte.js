@@ -1,11 +1,12 @@
 import React from "react";
 import Dashboard from "../../components/Dashboard/Dashboard";
+import SoporteDash from "../../components/Dashboard/SoporteDash/SoporteDash";
 
 const Soporte = () => {
   return (
     <Dashboard>
       <div>
-        <h1 className="text-[2.5rem] text-oscuro">Soporte</h1>
+        <SoporteDash />
       </div>
     </Dashboard>
   );

@@ -241,6 +241,7 @@ const resolvers = {
         const _mensaje = new Mensaje({
           asunto: asunto,
           mensaje: mensaje,
+          nombre: ctx.usuario.nombre,
           idUsuario: ctx.usuario.id,
         });
         const resultado = await _mensaje.save();

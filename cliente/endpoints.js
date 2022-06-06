@@ -38,6 +38,19 @@ export const OBTENER_PEDIDOS = gql`
   }
 `;
 
+export const OBTENER_MENSAJES = gql`
+  query Query {
+    obtenerMensajes {
+      id
+      asunto
+      mensaje
+      nombre
+      idUsuario
+      creado
+    }
+  }
+`;
+
 //MUTATIONS
 
 export const REGISTRAR_USUARIO = gql`
@@ -128,6 +141,19 @@ export const ACTUALIZAR_PEDIDO = gql`
   mutation Mutation($actualizarPedidoId: ID!, $estado: String!) {
     actualizarPedido(id: $actualizarPedidoId, estado: $estado) {
       id
+    }
+  }
+`;
+
+export const NUEVO_MENSAJE = gql`
+  mutation Mutation($input: MensajeInput) {
+    nuevoMensaje(input: $input) {
+      id
+      asunto
+      mensaje
+      nombre
+      idUsuario
+      creado
     }
   }
 `;

@@ -5,6 +5,9 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { classNames } from "primereact/utils";
 import useAuth from "../../hooks/useAuth";
+import { useMutation } from "@apollo/client";
+import { NUEVO_MENSAJE } from "../../endpoints";
+import { toast } from "react-toastify";
 
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";
@@ -13,6 +16,7 @@ const Support = () => {
   const [visible, setVisible] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [formData, setFormData] = useState({});
+  const [nuevoMensaje] = useMutation(NUEVO_MENSAJE);
 
   const { auth } = useAuth();
 
@@ -34,12 +38,24 @@ const Support = () => {
 
       return errors;
     },
-    onSubmit: (data) => {
-      setFormData(data);
-      setShowMessage(true);
-      setVisible(false);
+    onSubmit: async (dataForm) => {
+      try {
+        const { data } = await nuevoMensaje({
+          variables: {
+            input: {
+              asunto: dataForm.asunto,
+              mensaje: dataForm.mensaje,
+            },
+          },
+        });
 
-      formik.resetForm();
+        setFormData(dataForm);
+        setShowMessage(true);
+        setVisible(false);
+        formik.resetForm();
+      } catch (error) {
+        toast.error(error);
+      }
     },
   });
 
@@ -62,14 +78,21 @@ const Support = () => {
     return <div></div>;
   };
 
+  debugger;
+
   return (
     <>
-      <button
-        onClick={() => setVisible(true)}
-        className="bg-main text-white opacity-50 hover:opacity-100 flex justify-center items-center w-[3rem] h-[3rem] rounded-full fixed bottom-[5rem] right-[1.25rem]"
-      >
-        <i className="pi pi-envelope !text-[1.5rem]"></i>
-      </button>
+      {auth?.admin || auth === null ? (
+        ""
+      ) : (
+        <button
+          onClick={() => setVisible(true)}
+          className="bg-main text-white opacity-50 hover:opacity-100 flex justify-center items-center w-[3rem] h-[3rem] rounded-full fixed bottom-[5rem] right-[1.25rem]"
+        >
+          <i className="pi pi-envelope !text-[1.5rem]"></i>
+        </button>
+      )}
+
       <Dialog
         visible={showMessage}
         onHide={() => setShowMessage(false)}
@@ -87,7 +110,8 @@ const Support = () => {
           <h2 className="text-[1.5rem]">Mensaje enviado!</h2>
           <p className="mt-3 text-[1.15rem] text-center">
             El soporte se pondrá en contacto con usted vía email, a través de la
-            dirección: <span className="font-medium mt-2">{auth?.email}</span>
+            dirección:{" "}
+            <span className="font-medium mt-2 text-md">{auth?.email}</span>
           </p>
         </div>
       </Dialog>

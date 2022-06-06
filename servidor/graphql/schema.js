@@ -122,6 +122,7 @@ const typeDefs = gql`
     id: ID
     asunto: String
     mensaje: String
+    nombre: String
     idUsuario: ID
     creado: String
   }

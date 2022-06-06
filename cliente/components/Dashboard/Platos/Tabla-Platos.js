@@ -396,7 +396,6 @@ const TablaPlatos = ({ data }) => {
   }));
 
   const exportPdf = () => {
-    console.log("PRUEBA");
     import("jspdf").then((jsPDF) => {
       import("jspdf-autotable").then(() => {
         const doc = new jsPDF.default(0, 0);

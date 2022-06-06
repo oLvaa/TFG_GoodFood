@@ -11,6 +11,12 @@ const MensajesSchema = mongoose.Schema({
     trim: true,
     required: true,
   },
+  nombre: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+
   idUsuario: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

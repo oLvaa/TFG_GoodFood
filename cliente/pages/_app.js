@@ -14,10 +14,12 @@ import {
 } from "./api/cart";
 import { toast, ToastContainer } from "react-toastify";
 import { ScrollTop } from "primereact/scrolltop";
+import Soporte from "../components/Soporte/Soporte";
+
+import { CART } from "../utils/constants";
 
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import Soporte from "../components/Soporte/Soporte";
 import "primereact/resources/themes/saga-green/theme.css";
 
 function MyApp({ Component, pageProps }) {
@@ -57,6 +59,7 @@ function MyApp({ Component, pageProps }) {
   const logout = () => {
     if (auth) {
       localStorage.removeItem("token");
+      localStorage.removeItem(CART);
       setAuth(null);
       window.location.reload(true);
 
