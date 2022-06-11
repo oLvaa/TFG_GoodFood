@@ -78,8 +78,6 @@ const Support = () => {
     return <div></div>;
   };
 
-  debugger;
-
   return (
     <>
       {auth?.admin || auth === null ? (
