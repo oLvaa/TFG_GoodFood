@@ -16,6 +16,11 @@ const MensajesSchema = mongoose.Schema({
     trim: true,
     required: true,
   },
+  email: {
+    type: String,
+    trim: true,
+    required: true,
+  },
 
   idUsuario: {
     type: mongoose.Schema.Types.ObjectId,

@@ -123,6 +123,7 @@ const typeDefs = gql`
     asunto: String
     mensaje: String
     nombre: String
+    email: String
     idUsuario: ID
     creado: String
   }

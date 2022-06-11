@@ -91,14 +91,6 @@ const resolvers = {
         );
       }
 
-      //Compruebo si ya existe el nombre
-      const existeNombre = await Usuario.findOne({ nombre });
-      if (existeNombre) {
-        throw new Error(
-          "Ya hay un usuario registrado con ese nombre de usuario"
-        );
-      }
-
       //Compruebo si ya existe el número de teléfono
       const existeTelefono = await Usuario.findOne({ telefono });
       if (existeTelefono) {
@@ -242,6 +234,7 @@ const resolvers = {
           asunto: asunto,
           mensaje: mensaje,
           nombre: ctx.usuario.nombre,
+          email: ctx.usuario.email,
           idUsuario: ctx.usuario.id,
         });
         const resultado = await _mensaje.save();

@@ -45,6 +45,7 @@ export const OBTENER_MENSAJES = gql`
       asunto
       mensaje
       nombre
+      email
       idUsuario
       creado
     }
@@ -152,8 +153,15 @@ export const NUEVO_MENSAJE = gql`
       asunto
       mensaje
       nombre
+      email
       idUsuario
       creado
     }
+  }
+`;
+
+export const ELIMINAR_MENSAJE = gql`
+  mutation Mutation($input: ID) {
+    eliminarMensaje(input: $input)
   }
 `;

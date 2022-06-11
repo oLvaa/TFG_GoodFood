@@ -11,6 +11,8 @@ import { FilterMatchMode, FilterOperator } from "primereact/api";
 import emailjs from "@emailjs/browser";
 import { useFormik } from "formik";
 import useAuth from "../../../hooks/useAuth";
+import { useMutation } from "@apollo/client";
+import { ELIMINAR_MENSAJE } from "../../../endpoints";
 
 const TablaSoporte = ({ data }) => {
   const [mensajes, setMensajes] = useState(data);
@@ -18,7 +20,10 @@ const TablaSoporte = ({ data }) => {
   const [filters, setFilters] = useState(null);
   const [emailDialog, setEmailDialog] = useState(false);
   const [formData, setFormData] = useState({});
+  const [mensajeSeleccionado, setMensajeSeleccionado] = useState({});
+
   const { auth } = useAuth();
+  const [eliminarMensaje] = useMutation(ELIMINAR_MENSAJE);
 
   useEffect(() => {
     initFilters();
@@ -66,6 +71,8 @@ const TablaSoporte = ({ data }) => {
         <button
           onClick={() => {
             setEmailDialog(true);
+            setMensajeSeleccionado(rowData);
+            console.log(mensajeSeleccionado);
           }}
         >
           <i className="pi pi-comment cursor-pointer" />
@@ -77,9 +84,9 @@ const TablaSoporte = ({ data }) => {
   const formik = useFormik({
     initialValues: {
       asunto: "",
-      nombre: auth.nombre,
+      nombre: "",
       mensaje: "",
-      email: auth.email,
+      email: "",
     },
     validate: (data) => {
       let errors = {};
@@ -96,6 +103,8 @@ const TablaSoporte = ({ data }) => {
     },
     onSubmit: (dataForm) => {
       debugger;
+      dataForm.nombre = mensajeSeleccionado.nombre;
+      dataForm.email = mensajeSeleccionado.email;
       emailjs
         .send(
           "service_v48vmpk",
@@ -104,11 +113,21 @@ const TablaSoporte = ({ data }) => {
           "9sOxb4vwak0eciukQ"
         )
         .then(
-          (result) => {
-            console.log(result);
+          async (result) => {
             setFormData(dataForm);
             setEmailDialog(false);
             formik.resetForm();
+            try {
+              const { data } = await eliminarMensaje({
+                variables: {
+                  input: mensajeSeleccionado.id,
+                },
+              });
+            } catch (error) {
+              console.log(error);
+            }
+            borrarMensajeEstado(mensajeSeleccionado.id);
+            setMensajeSeleccionado({});
             toast.current.show({
               severity: "success",
               summary: "Email enviado",
@@ -117,6 +136,9 @@ const TablaSoporte = ({ data }) => {
             });
           },
           (error) => {
+            setEmailDialog(false);
+            setMensajeSeleccionado({});
+            formik.resetForm();
             toast.current.show({
               severity: "error",
               summary: "Ha ocurrido un problema",
@@ -127,6 +149,16 @@ const TablaSoporte = ({ data }) => {
         );
     },
   });
+
+  const borrarMensajeEstado = (id) => {
+    const mensajesActualizados = [];
+    mensajes.forEach((msj) => {
+      if (msj.id !== id) {
+        mensajesActualizados.push(msj);
+      }
+    });
+    setMensajes(mensajesActualizados);
+  };
 
   const isFormFieldValid = (name) =>
     !!(formik.touched[name] && formik.errors[name]);
