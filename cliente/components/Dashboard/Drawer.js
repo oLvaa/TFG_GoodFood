@@ -54,11 +54,6 @@ const PRIMERA_PARTE = [
     icon: <DiscountIcon />,
     url: "descuentos",
   },
-  {
-    text: "Testimonios",
-    icon: <ChatIcon />,
-    url: "testimonios",
-  },
 ];
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
