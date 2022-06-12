@@ -145,7 +145,7 @@ const Navbar = () => {
             {abierto1 && <DropdownMenu />}
           </li>
 
-          <li
+          {/* <li
             className={
               path === "/testimonios"
                 ? "border-b-2 border-main font-bold"
@@ -153,7 +153,7 @@ const Navbar = () => {
             }
           >
             <Link href="/testimonios">Testimonios</Link>
-          </li>
+          </li> */}
         </nav>
 
         <nav className="list-none flex space-x-12 relative">

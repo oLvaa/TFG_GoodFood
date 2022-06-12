@@ -18,6 +18,9 @@ const typeDefs = gql`
 
     # Mensajes
     obtenerMensajes: [Mensaje]
+
+    # Dashboard
+    obtenerDatos: Datos
   }
 
   type Mutation {
@@ -131,6 +134,15 @@ const typeDefs = gql`
   input MensajeInput {
     asunto: String!
     mensaje: String!
+  }
+
+  type Datos {
+    numUsuarios: Int
+    numPlatos: Int
+    pedidosTotales: Int
+    pedidosMes: Int
+    facturacionTotal: Float
+    facturacionMes: Float
   }
 `;
 

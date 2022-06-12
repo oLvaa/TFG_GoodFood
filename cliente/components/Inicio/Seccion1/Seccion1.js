@@ -1,5 +1,6 @@
 import React from "react";
 import Reviews from "./Reviews";
+import Link from "next/link";
 
 const Seccion1 = () => {
   return (
@@ -15,10 +16,11 @@ const Seccion1 = () => {
           <p className="mt-4 mb-8">
             Comer es una necesidad, hacerlo de forma inteligente es un arte
           </p>
-
-          <button className="text-center bg-oscuro hover:bg-black text-fondoBlanco rounded-full px-[1.325rem] py-[0.5rem] text-[1rem]">
-            Crea tu plato
-          </button>
+          <Link href="/plato-personalizado">
+            <a className="text-center bg-oscuro hover:bg-black text-fondoBlanco rounded-full px-[1.325rem] py-[0.75rem] text-[1rem]">
+              Crea tu plato
+            </a>
+          </Link>
           <Reviews />
         </div>
         <div className="w-[35.625rem]">

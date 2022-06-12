@@ -1,5 +1,6 @@
 import React from "react";
 import Tarjeta from "./Tarjeta";
+import Link from "next/link";
 
 const Seccion3 = () => {
   return (
@@ -33,9 +34,13 @@ const Seccion3 = () => {
               icono="/Iconos/bookmark.svg"
               alt="Icono bookmark"
             />
-            <button className="absolute bg-oscuro hover:bg-black font-bold text-[0.875rem] text-fondoBlanco rounded-full w-[12.188rem] mt-[1.25rem]">
-              IR AHORA
-            </button>
+            <Link href="/plato-personalizado">
+              <a>
+                <button className="absolute bg-oscuro hover:bg-black font-bold text-[0.875rem] text-fondoBlanco rounded-full w-[12.188rem] mt-[1.25rem]">
+                  IR AHORA
+                </button>
+              </a>
+            </Link>
           </div>
 
           <div className="w-[3.25rem] m-[1.1875rem]">

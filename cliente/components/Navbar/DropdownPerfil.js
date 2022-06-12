@@ -30,11 +30,11 @@ const DropdownPerfil = () => {
               </a>
             )}
 
-            <Link href="/">
+            {/* <Link href="/">
               <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3 ">
                 <a className="cursor-pointer text-sm">Mis datos</a>
               </div>
-            </Link>
+            </Link> */}
 
             <Link href="/pedidos">
               <div className="hover:bg-mainHover bg-main cursor-pointer pl-2 py-3 ">

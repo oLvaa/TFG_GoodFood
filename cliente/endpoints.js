@@ -52,6 +52,35 @@ export const OBTENER_MENSAJES = gql`
   }
 `;
 
+export const OBTENER_DATOS = gql`
+  query Query {
+    obtenerDatos {
+      numUsuarios
+      numPlatos
+      pedidosTotales
+      pedidosMes
+      facturacionTotal
+      facturacionMes
+    }
+  }
+`;
+
+export const OBTENER_PEDIDOS_USUARIO = gql`
+  query Query($idUsuario: ID!) {
+    obtenerPedidosUsuario(idUsuario: $idUsuario) {
+      id
+      importe
+      info
+      idUsuario
+      idPago
+      direccion
+      piso
+      estado
+      creado
+    }
+  }
+`;
+
 //MUTATIONS
 
 export const REGISTRAR_USUARIO = gql`

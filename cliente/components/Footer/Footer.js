@@ -61,31 +61,17 @@ const Footer = () => {
         <div className="flex justify-between text-contrasteGris mt-[4.6875rem]">
           <div className="flex justify-between w-[25.3125rem]">
             <div className="flex flex-col">
-              <Link href="/">
+              <Link href="/packs">
                 <a>Packs</a>
               </Link>
-              <Link href="/">
+              <Link href="/plato-personalizado">
                 <a>Plato personalizado</a>
               </Link>
-              <Link href="/">
-                <a>Menús</a>
+              <Link href="/menu/original">
+                <a>Menú original</a>
               </Link>
-              <Link href="/">
-                <a>Envíos</a>
-              </Link>
-              <Link href="/">
-                <a>Testimonios</a>
-              </Link>
-            </div>
-            <div className="flex flex-col">
-              <Link href="/">
-                <a>Mis platos</a>
-              </Link>
-              <Link href="/">
-                <a>Carrito</a>
-              </Link>
-              <Link href="/">
-                <a>Giftcard</a>
+              <Link href="/menu/personalizado">
+                <a>Menú personalizado</a>
               </Link>
             </div>
           </div>
@@ -93,7 +79,7 @@ const Footer = () => {
             <Link href="/">
               <a>©2022 Good Food</a>
             </Link>
-            <Link href="/">
+            {/* <Link href="/">
               <a>Aviso legal</a>
             </Link>
             <Link href="/">
@@ -101,7 +87,7 @@ const Footer = () => {
             </Link>
             <Link href="/">
               <a>Política de cookies</a>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

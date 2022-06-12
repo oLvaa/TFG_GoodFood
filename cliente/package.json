@@ -20,6 +20,7 @@
     "@stripe/stripe-js": "^1.31.0",
     "apollo-link-context": "^1.0.20",
     "apollo-upload-client": "^17.0.0",
+    "chart.js": "^3.8.0",
     "cross-fetch": "^3.1.5",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",

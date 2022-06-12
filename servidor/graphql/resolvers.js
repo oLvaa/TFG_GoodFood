@@ -77,6 +77,48 @@ const resolvers = {
         console.log(error);
       }
     },
+
+    obtenerDatos: async () => {
+      let res = {};
+      const fechaActual = new Date();
+
+      let numUsuarios = await Usuario.estimatedDocumentCount();
+      let numPlatos = await Plato.estimatedDocumentCount();
+
+      let pedidosTotales = await Pedido.find({});
+      let facturacionTotal = pedidosTotales
+        .map((item) => item.importe)
+        .reduce((prev, curr) => prev + curr, 0);
+      pedidosTotales = pedidosTotales.length;
+
+      let pedidosMes = await Pedido.find({
+        year: fechaActual.getFullYear,
+        month: fechaActual.getMonth,
+      });
+      let facturacionMes = pedidosMes
+        .map((item) => item.importe)
+        .reduce((prev, curr) => prev + curr, 0);
+      pedidosMes = pedidosMes.length;
+
+      if (pedidosMes === 0) {
+        facturacionMes = 0;
+      }
+
+      if (pedidosTotales === 0) {
+        facturacionTotal = 0;
+      }
+
+      res = {
+        numUsuarios,
+        numPlatos,
+        pedidosTotales,
+        pedidosMes,
+        facturacionTotal,
+        facturacionMes,
+      };
+
+      return res;
+    },
   },
 
   Mutation: {

@@ -1,12 +1,11 @@
 import React from "react";
 import Dashboard from "../../components/Dashboard/Dashboard";
+import Inicio from "../../components/Dashboard/Inicio/Inicio";
 
 const inicio = () => {
   return (
     <Dashboard>
-      <div>
-        <h1 className="text-[2.5rem] text-oscuro">Inicio</h1>
-      </div>
+      <Inicio />
     </Dashboard>
   );
 };
