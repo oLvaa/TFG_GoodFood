@@ -11,7 +11,7 @@ const Pedidos = () => {
 
   const { loading, error, data } = useQuery(OBTENER_PEDIDOS_USUARIO, {
     variables: {
-      idUsuario: auth.id,
+      idUsuario: auth?.id,
     },
   });
 
@@ -24,13 +24,13 @@ const Pedidos = () => {
       ) : (
         <div>
           <h2>Pedidos</h2>
-          {data.obtenerPedidosUsuario === 0 ? (
+          {data?.obtenerPedidosUsuario === 0 ? (
             <div className="flex justify-center items-center h-[40rem]">
               <h3 className="text-oscuro">No se encontraron pedidos</h3>
             </div>
           ) : (
             <div className=" space-y-10 mt-10">
-              {data.obtenerPedidosUsuario.map((pedido, idx) => (
+              {data?.obtenerPedidosUsuario.map((pedido, idx) => (
                 <Pedido pedido={pedido} idx={idx} />
               ))}
             </div>

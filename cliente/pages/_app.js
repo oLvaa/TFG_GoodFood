@@ -61,9 +61,8 @@ function MyApp({ Component, pageProps }) {
       localStorage.removeItem("token");
       localStorage.removeItem(CART);
       setAuth(null);
-      window.location.reload(true);
-
       router.push("/");
+      window.location.reload(true);
     }
   };
 
